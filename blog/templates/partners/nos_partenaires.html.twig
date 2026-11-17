@@ -33,14 +33,14 @@
 		chaque photo dans Figma.
 	#}
 	{% set activites = [
-		{ titre: 'Jeux de société', texte: 'Soirées jeux de société, tournois, découvertes', couleur: 'violet', icone: 'icone-jeux.png', photo: 'photo-jeux.png', decalage: '-26.2%' },
-		{ titre: 'Ateliers créatifs', texte: 'Poterie, céramique, peinture, DIY', couleur: 'rose', icone: 'icone-ateliers.png', photo: 'photo-ateliers.png', decalage: '-26.99%' },
-		{ titre: 'Culture & lecture', texte: 'Cafés-lecture, expositions, musées', couleur: 'jaune', icone: 'icone-culture.png', photo: 'photo-culture.png', decalage: '-31.71%' },
-		{ titre: 'Cuisine', texte: 'Ateliers cuisine, dégustations', couleur: 'violet', icone: 'icone-cuisine.png', photo: 'photo-cuisine.png', decalage: '-41.16%' },
-		{ titre: 'Sport & bien-être', texte: 'Yoga, randonnée, escalade', couleur: 'rose', icone: 'icone-sport.png', photo: 'photo-sport.png', decalage: '-8.88%' },
-		{ titre: 'Sorties & loisirs', texte: 'Concerts, cinéma, soirées à thème', couleur: 'jaune', icone: 'icone-sorties.png', photo: 'photo-sorties.png', decalage: '-27.17%' },
-		{ titre: 'Nature & plein air', texte: 'Balades, pique-niques, découvertes', couleur: 'violet', icone: 'icone-nature.png', photo: 'photo-nature.png', decalage: '-8.88%' },
-		{ titre: 'Et bien plus encore', texte: 'De nouvelles activités à venir !', couleur: 'rose', icone: 'icone-plus-encore.png', photo: 'photo-plus-encore.png', decalage: '-30.71%' },
+		{ titre: 'Jeux de société', texte: 'Soirées jeux de société, tournois, découvertes', couleur: 'violet', icone: 'icone-jeux.png', photo: 'photo-jeux.webp', decalage: '-26.2%' },
+		{ titre: 'Ateliers créatifs', texte: 'Poterie, céramique, peinture, DIY', couleur: 'rose', icone: 'icone-ateliers.png', photo: 'photo-ateliers.webp', decalage: '-26.99%' },
+		{ titre: 'Culture & lecture', texte: 'Cafés-lecture, expositions, musées', couleur: 'jaune', icone: 'icone-culture.png', photo: 'photo-culture.webp', decalage: '-31.71%' },
+		{ titre: 'Cuisine', texte: 'Ateliers cuisine, dégustations', couleur: 'violet', icone: 'icone-cuisine.png', photo: 'photo-cuisine.webp', decalage: '-41.16%' },
+		{ titre: 'Sport & bien-être', texte: 'Yoga, randonnée, escalade', couleur: 'rose', icone: 'icone-sport.png', photo: 'photo-sport.webp', decalage: '-8.88%' },
+		{ titre: 'Sorties & loisirs', texte: 'Concerts, cinéma, soirées à thème', couleur: 'jaune', icone: 'icone-sorties.png', photo: 'photo-sorties.webp', decalage: '-27.17%' },
+		{ titre: 'Nature & plein air', texte: 'Balades, pique-niques, découvertes', couleur: 'violet', icone: 'icone-nature.png', photo: 'photo-nature.webp', decalage: '-8.88%' },
+		{ titre: 'Et bien plus encore', texte: 'De nouvelles activités à venir !', couleur: 'rose', icone: 'icone-plus-encore.png', photo: 'photo-plus-encore.webp', decalage: '-30.71%' },
 	] %}
 
 	{% set types_de_lieux = [
@@ -72,7 +72,7 @@
 					</div>
 				</div>
 				<div class="bz-heros__visuel">
-					<img src="{{ asset('images/partenaires/heros-telephone.png') }}" alt="La liste des activités dans l’application Bondiz">
+					<img src="{{ asset('images/partenaires/heros-telephone.webp') }}" alt="La liste des activités dans l’application Bondiz">
 				</div>
 			</div>
 		</section>
@@ -122,12 +122,29 @@
 				<div class="bz-carrousel" data-carrousel>
 					<ul class="bz-carrousel__piste" data-carrousel-piste aria-label="Nos partenaires">
 						{% for partenaire in partenaires %}
-							<li class="bz-vignette bz-partenaire">
-								{% if partenaire.logo %}
-									<img src="{{ partenaire.logo }}" alt="{{ partenaire.logoAlt }}" class="bz-partenaire__logo" loading="lazy">
-								{% endif %}
-								<p class="bz-texte bz-partenaire__nom">{{ partenaire.name }}</p>
-							</li>
+							{# Carte photo de la maquette ; sans photo de couverture, le logo sur fond clair. #}
+							{% if partenaire.photo %}
+								<li class="bz-partenaire bz-partenaire--photo">
+									<img src="{{ partenaire.photo }}" alt="" class="bz-partenaire__photo" loading="lazy">
+									<div class="bz-partenaire__legende">
+										<p class="bz-partenaire__titre">{{ partenaire.name }}</p>
+										{% if partenaire.category %}<p class="bz-partenaire__categorie">{{ partenaire.category }}</p>{% endif %}
+										{% if partenaire.city %}
+											<p class="bz-partenaire__ville">
+												<img src="{{ asset('images/espace-partenaire/localisation.png') }}" alt="">
+												{{ partenaire.city }}
+											</p>
+										{% endif %}
+									</div>
+								</li>
+							{% else %}
+								<li class="bz-vignette bz-partenaire">
+									{% if partenaire.logo %}
+										<img src="{{ partenaire.logo }}" alt="{{ partenaire.logoAlt }}" class="bz-partenaire__logo" loading="lazy">
+									{% endif %}
+									<p class="bz-texte bz-partenaire__nom">{{ partenaire.name }}</p>
+								</li>
+							{% endif %}
 						{% else %}
 							{# Aucun partenaire publié pour l'instant : on invite à le devenir. #}
 							{% for i in 1..3 %}
@@ -159,7 +176,7 @@
 					</div>
 				</div>
 				<div class="bz-carte__image">
-					<img src="{{ asset('images/partenaires/photo-professionnels.png') }}" alt="Une professionnelle compose un bouquet dans son atelier" loading="lazy">
+					<img src="{{ asset('images/partenaires/photo-professionnels.webp') }}" alt="Une professionnelle compose un bouquet dans son atelier" loading="lazy">
 				</div>
 			</article>
 		</section>

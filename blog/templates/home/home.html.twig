@@ -33,12 +33,12 @@
 						Envie de faire de nouvelles rencontres, mais tu ne sais pas par où commencer ? Avec Bondiz, découvre des personnes qui partagent tes centres d’intérêt et retrouve-les autour d’activités disponibles à Angers grâce à nos lieux partenaires. Que tu préfères être mis en relation grâce à tes passions ou rejoindre directement une activité, il ne te reste plus qu’à te lancer et à faire de nouvelles rencontres !
 					</p>
 					<div class="bz-actions">
-						<a href="/downloads/bondiz.apk" download class="bz-bouton bz-bouton--jaune">Télécharger l’application</a>
+						<a href="{{ path('app_download') }}" class="bz-bouton bz-bouton--jaune">Télécharger l’application</a>
 						<a href="{{ path('app_devenir_partenaire') }}" class="bz-bouton bz-bouton--rose">Devenir partenaire</a>
 					</div>
 				</div>
 				<div class="bz-heros__visuel">
-					<img src="{{ asset('images/home/telephone-accueil.png') }}" alt="L’application Bondiz : profil d’une personne avec ses centres d’intérêt" width="412" height="582">
+					<img src="{{ asset('images/home/telephone-accueil.webp') }}" alt="L’application Bondiz : profil d’une personne avec ses centres d’intérêt" width="412" height="582">
 				</div>
 			</div>
 
@@ -51,7 +51,7 @@
 						</p>
 					</div>
 					<div class="bz-carte__image">
-						<img src="{{ asset('images/home/photo-amis.png') }}" alt="Un groupe d’amis souriants, photographié en contre-plongée" loading="lazy">
+						<img src="{{ asset('images/home/photo-amis.webp') }}" alt="Un groupe d’amis souriants, photographié en contre-plongée" loading="lazy">
 					</div>
 				</article>
 			</div>
@@ -89,13 +89,13 @@
 					<a href="https://app.bondiz.fr" class="bz-bouton bz-bouton--rose">Découvrir toutes les activités Bondiz</a>
 				</div>
 				<div class="bz-carte__image">
-					<img src="{{ asset('images/home/photo-basket.png') }}" alt="Des jeunes jouent au basket sur un terrain en plein air" loading="lazy">
+					<img src="{{ asset('images/home/photo-basket.webp') }}" alt="Des jeunes jouent au basket sur un terrain en plein air" loading="lazy">
 				</div>
 			</article>
 		</section>
 
 		<section id="partenaires" class="bz-partenaires">
-			<img src="{{ asset('images/home/telephone-activites.png') }}" alt="La liste des activités dans l’application Bondiz" class="bz-partenaires__telephone" width="911" height="644" loading="lazy">
+			<img src="{{ asset('images/home/telephone-activites.webp') }}" alt="La liste des activités dans l’application Bondiz" class="bz-partenaires__telephone" width="911" height="644" loading="lazy">
 			<div class="bz-conteneur">
 				<div class="bz-partenaires__carte">
 					<h2 class="bz-titre">Vous êtes un professionnel à Angers ?<br>Créons des rencontres ensemble.</h2>
@@ -111,7 +111,7 @@
 			<div class="bz-conteneur">
 				<h2 class="bz-titre">Et si ta prochaine rencontre commençait ici ?</h2>
 				<p class="bz-texte">Découvre Bondiz et trouve de nouvelles occasions de rencontrer des personnes à Angers.</p>
-				<a href="/downloads/bondiz.apk" download class="bz-bouton bz-bouton--rose">Télécharger l’application</a>
+				<a href="{{ path('app_download') }}" class="bz-bouton bz-bouton--rose">Télécharger l’application</a>
 			</div>
 		</section>
 

@@ -1,0 +1,181 @@
+/* Bandeau et panneau de cookies (tarteaucitron) aux couleurs de Bondiz.
+   tarteaucitron injecte son propre CSS après le nôtre, avec des sélecteurs
+   par id : d'où les sélecteurs préfixés par #tarteaucitronRoot et les !important. */
+
+#tarteaucitronRoot,
+#tarteaucitronRoot button,
+#tarteaucitronRoot span,
+#tarteaucitronRoot a,
+#tarteaucitronRoot div {
+    font-family: var(--bz-police) !important;
+}
+
+/* ===== Bandeau ===== */
+#tarteaucitronRoot #tarteaucitronAlertBig {
+    background: var(--bz-blanc) !important;
+    color: var(--bz-noir) !important;
+    border-radius: var(--bz-rayon-carte) var(--bz-rayon-carte) 0 0 !important;
+    box-shadow: var(--bz-ombre-carte) !important;
+    padding: 20px 24px !important;
+    box-sizing: border-box !important;
+}
+
+#tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronDisclaimerAlert {
+    color: var(--bz-noir) !important;
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+}
+
+#tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronPrivacyUrl {
+    color: var(--bz-violet) !important;
+    font-weight: var(--bz-graisse-moyenne) !important;
+    text-decoration: underline !important;
+}
+
+/* Boutons en pilule */
+#tarteaucitronRoot #tarteaucitronAlertBig button.tarteaucitronCTAButton,
+#tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronCloseAlert {
+    border-radius: var(--bz-rayon-pilule) !important;
+    padding: 8px 20px !important;
+    font-size: 15px !important;
+    font-weight: var(--bz-graisse-demi) !important;
+    border: 2px solid var(--bz-violet) !important;
+    margin: 6px 4px !important;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+}
+
+#tarteaucitronRoot #tarteaucitronAlertBig button.tarteaucitronCTAButton:hover,
+#tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronCloseAlert:hover {
+    opacity: 0.85;
+}
+
+/* Tout accepter : violet plein */
+#tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronPersonalize2 {
+    background: var(--bz-violet) !important;
+    color: var(--bz-blanc) !important;
+}
+
+/* Tout refuser : contour violet */
+#tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronAllDenied2 {
+    background: var(--bz-blanc) !important;
+    color: var(--bz-violet) !important;
+}
+
+/* Personnaliser : contour discret */
+#tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronCloseAlert {
+    background: var(--bz-blanc) !important;
+    color: var(--bz-noir) !important;
+    border-color: var(--bz-bordure) !important;
+}
+
+/* Les icônes ✓ / ✗ prennent la couleur du texte du bouton */
+#tarteaucitronRoot #tarteaucitronAlertBig .tarteaucitronCheck,
+#tarteaucitronRoot #tarteaucitronAlertBig .tarteaucitronCross {
+    color: inherit !important;
+}
+#tarteaucitronRoot #tarteaucitronAlertBig .tarteaucitronCheck::before,
+#tarteaucitronRoot #tarteaucitronAlertBig .tarteaucitronCross::before {
+    color: inherit !important;
+}
+
+/* ===== Panneau « Personnaliser » ===== */
+#tarteaucitronRoot #tarteaucitron #tarteaucitronServices {
+    border-radius: var(--bz-rayon-carte) !important;
+    /* C'est la zone qui défile : ne pas mettre overflow: hidden. */
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+}
+
+#tarteaucitronRoot #tarteaucitron #tarteaucitronServices .tarteaucitronMainLine,
+#tarteaucitronRoot #tarteaucitron #tarteaucitronMainLineOffset {
+    background: var(--bz-violet) !important;
+    border-color: var(--bz-violet) !important;
+}
+
+#tarteaucitronRoot #tarteaucitron .tarteaucitronH1,
+#tarteaucitronRoot #tarteaucitron .tarteaucitronH2,
+#tarteaucitronRoot #tarteaucitron #tarteaucitronServices .tarteaucitronMainLine .tarteaucitronName span {
+    color: var(--bz-blanc) !important;
+}
+
+#tarteaucitronRoot #tarteaucitron #tarteaucitronClosePanel {
+    background: var(--bz-violet) !important;
+    color: var(--bz-blanc) !important;
+    border-radius: var(--bz-rayon-pastille) var(--bz-rayon-pastille) 0 0 !important;
+}
+
+#tarteaucitronRoot #tarteaucitron .tarteaucitronAllow,
+#tarteaucitronRoot #tarteaucitron .tarteaucitronDeny {
+    border-radius: var(--bz-rayon-pilule) !important;
+    border: 2px solid var(--bz-violet) !important;
+    background: var(--bz-blanc) !important;
+    color: var(--bz-violet) !important;
+}
+
+/* Choix actif dans le panneau */
+#tarteaucitronRoot #tarteaucitron .tarteaucitronIsAllowed .tarteaucitronAllow,
+#tarteaucitronRoot #tarteaucitron .tarteaucitronIsDenied .tarteaucitronDeny {
+    background: var(--bz-violet) !important;
+    color: var(--bz-blanc) !important;
+}
+
+#tarteaucitronRoot #tarteaucitron .tarteaucitronIsAllowed,
+#tarteaucitronRoot #tarteaucitron .tarteaucitronIsDenied {
+    border-left-color: var(--bz-violet) !important;
+}
+
+#tarteaucitronRoot .tarteaucitronCheck::before,
+#tarteaucitronRoot .tarteaucitronCross::before {
+    color: inherit !important;
+}
+
+@media (max-width: 767px) {
+    #tarteaucitronRoot #tarteaucitronAlertBig {
+        border-radius: var(--bz-rayon-pastille) var(--bz-rayon-pastille) 0 0 !important;
+        padding: 16px !important;
+    }
+}
+
+/* Encart d'information et titres de catégories */
+#tarteaucitronRoot #tarteaucitron #tarteaucitronInfo {
+    background: var(--bz-blanc) !important;
+    color: var(--bz-noir) !important;
+    border-radius: var(--bz-rayon-pastille) !important;
+}
+
+#tarteaucitronRoot #tarteaucitron #tarteaucitronInfo #tarteaucitronPrivacyUrl,
+#tarteaucitronRoot #tarteaucitron #tarteaucitronInfo button {
+    background: var(--bz-violet) !important;
+    color: var(--bz-blanc) !important;
+    border-radius: var(--bz-rayon-pilule) !important;
+    padding: 4px 14px !important;
+}
+
+#tarteaucitronRoot #tarteaucitron .tarteaucitronTitle {
+    background: transparent !important;
+}
+
+#tarteaucitronRoot #tarteaucitron .tarteaucitronTitle button {
+    background: var(--bz-noir) !important;
+    color: var(--bz-jaune) !important;
+    border-radius: 0 var(--bz-rayon-pilule) var(--bz-rayon-pilule) 0 !important;
+}
+
+/* Tout accepter / Tout refuser dans l'en-tête violet */
+#tarteaucitronRoot #tarteaucitron #tarteaucitronAllAllowed,
+#tarteaucitronRoot #tarteaucitron #tarteaucitronAllDenied {
+    background: var(--bz-blanc) !important;
+    color: var(--bz-violet) !important;
+    border-color: var(--bz-blanc) !important;
+    opacity: 1 !important;
+}
+
+/* Barre d'enregistrement en bas du panneau */
+#tarteaucitronRoot #tarteaucitron #tarteaucitronSave {
+    background: var(--bz-blanc) !important;
+}
+#tarteaucitronRoot #tarteaucitron #tarteaucitronSaveButton {
+    background: var(--bz-violet) !important;
+    color: var(--bz-blanc) !important;
+}

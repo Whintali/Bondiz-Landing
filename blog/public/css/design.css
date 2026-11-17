@@ -392,7 +392,7 @@ body {
 
 .bz-fond__tranche {
     flex: 1110 1110 0;
-    background: url('../images/brand/fond.png') center / cover no-repeat;
+    background: url('../images/brand/fond.webp') center / cover no-repeat;
 }
 
 .bz-fond__tranche--retournee {

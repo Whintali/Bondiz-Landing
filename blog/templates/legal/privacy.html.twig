@@ -1,98 +1,124 @@
 {% extends 'legal/layout.html.twig' %}
 
 {% block title %}Politique de confidentialité - Bondiz{% endblock %}
-{% block legal_title %}Politique de <span class="text-gradient">confidentialité</span>{% endblock %}
+{% block legal_title %}POLITIQUE{% endblock %}
+{% block legal_title_fort %}DE CONFIDENTIALITÉ{% endblock %}
+
+{% block legal_intro %}
+	<p class="bz-legal__intro">Bondiz accorde une grande importance à la protection de vos données personnelles. Cette page explique quelles données nous collectons sur ce site, pourquoi, et quels sont vos droits, conformément au Règlement général sur la protection des données (RGPD) et à la loi Informatique et Libertés.</p>
+{% endblock %}
 
 {% block legal_content %}
-	<p>
-		Bondiz accorde une grande importance à la protection de vos données personnelles. Cette page explique quelles données nous collectons sur ce site, pourquoi, et quels sont vos droits, conformément au Règlement général sur la protection des données (RGPD) et à la loi Informatique et Libertés.
-	</p>
+	<section class="bz-legal__carte">
+		<h2>Responsable du traitement</h2>
+		<p>Le responsable du traitement est l'éditeur du site Bondiz (voir les <a href="{{ path('app_legal_notice') }}">mentions légales</a>).</p>
+		<p><strong>Contact</strong> : <a href="mailto:contact@bondiz.fr">contact@bondiz.fr</a></p>
+	</section>
 
-	<h2>Responsable du traitement</h2>
-	<p>
-		Le responsable du traitement est l'éditeur du site Bondiz (voir les <a href="{{ path('app_legal_notice') }}">mentions légales</a>).<br>
-		Contact : <a href="mailto:contact@bondiz.fr">contact@bondiz.fr</a>
-	</p>
+	<section class="bz-legal__carte">
+		<h2>Données collectées et finalités</h2>
+		<div class="bz-legal__tableau bz-legal__tableau--compact">
+			<table>
+				<thead>
+					<tr><th scope="col">Traitement</th><th scope="col">Données</th><th scope="col">Finalité</th><th scope="col">Base légale</th></tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td data-label="Traitement">Création et gestion du compte membre</td>
+						<td data-label="Données">Adresse mail, pseudo, mot de passe (stocké haché, jamais en clair), statut de vérification de l'e-mail</td>
+						<td data-label="Finalité">Créer votre compte, vous authentifier, accéder à l'espace membre</td>
+						<td data-label="Base légale">Exécution du service demandé</td>
+					</tr>
+					<tr>
+						<td data-label="Traitement">Vérification de l'adresse e-mail</td>
+						<td data-label="Données">Adresse e-mail</td>
+						<td data-label="Finalité">Envoi d'un e-mail de confirmation à l'inscription</td>
+						<td data-label="Base légale">Exécution du service demandé</td>
+					</tr>
+					<tr>
+						<td data-label="Traitement">Mesure d'audience (Google Analytics 4)</td>
+						<td data-label="Données">Pages consultées, identifiants de cookie, données techniques du navigateur</td>
+						<td data-label="Finalité">Comprendre la fréquentation du site et l'améliorer</td>
+						<td data-label="Base légale">Consentement (voir <a href="{{ path('app_cookies') }}">cookies</a>)</td>
+					</tr>
+					<tr>
+						<td data-label="Traitement">Mesure d'audience (Matomo)</td>
+						<td data-label="Données">Pages consultées, identifiants de cookie, données techniques du navigateur</td>
+						<td data-label="Finalité">Comprendre la fréquentation du site et l'améliorer</td>
+						<td data-label="Base légale">Consentement (voir <a href="{{ path('app_cookies') }}">cookies</a>)</td>
+					</tr>
+					<tr>
+						<td data-label="Traitement">Formulaire « Nous contacter »</td>
+						<td data-label="Données">Nom, prénom, adresse e-mail, objet et contenu du message</td>
+						<td data-label="Finalité">Répondre à votre demande</td>
+						<td data-label="Base légale">Intérêt légitime</td>
+					</tr>
+					<tr>
+						<td data-label="Traitement">Demande de partenariat (« Devenir partenaire »)</td>
+						<td data-label="Données">Nom de l'établissement, type d'activité, ville, nom du contact, adresse e-mail, téléphone, message</td>
+						<td data-label="Finalité">Étudier la demande et recontacter l'établissement</td>
+						<td data-label="Base légale">Mesures précontractuelles prises à votre demande</td>
+					</tr>
+					<tr>
+						<td data-label="Traitement">Espace partenaire</td>
+						<td data-label="Données">Adresse e-mail et mot de passe (stocké haché) du partenaire, informations sur l'établissement, activités publiées</td>
+						<td data-label="Finalité">Permettre aux établissements partenaires de se connecter et de publier leurs activités dans l'application</td>
+						<td data-label="Base légale">Exécution du contrat de partenariat</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p>Nous ne vendons pas vos données et ne les utilisons pas pour de la publicité ciblée.</p>
+	</section>
 
-	<h2>Données collectées et finalités</h2>
-	<div class="legal-table-wrap">
-		<table>
-			<thead>
-				<tr><th>Traitement</th><th>Données</th><th>Finalité</th><th>Base légale</th></tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>Création et gestion du compte membre</td>
-					<td>Adresse e-mail, pseudo, mot de passe (stocké haché, jamais en clair), statut de vérification de l'e-mail</td>
-					<td>Créer votre compte, vous authentifier, accéder à l'espace membre</td>
-					<td>Exécution du service demandé</td>
-				</tr>
-				<tr>
-					<td>Vérification de l'adresse e-mail</td>
-					<td>Adresse e-mail</td>
-					<td>Envoi d'un e-mail de confirmation à l'inscription</td>
-					<td>Exécution du service demandé</td>
-				</tr>
-				<tr>
-					<td>Mesure d'audience (Google Analytics 4)</td>
-					<td>Pages consultées, identifiants de cookie, données techniques du navigateur</td>
-					<td>Comprendre la fréquentation du site et l'améliorer</td>
-					<td>Consentement (voir <a href="{{ path('app_cookies') }}">cookies</a>)</td>
-				</tr>
-				<tr>
-					<td>Contact</td>
-					<td>Adresse e-mail et contenu du message</td>
-					<td>Répondre à votre demande</td>
-					<td>Intérêt légitime</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	<p>Nous ne vendons pas vos données et ne les utilisons pas pour de la publicité ciblée.</p>
+	<section class="bz-legal__carte">
+		<h2>Durée de conservation</h2>
+		<p><strong>Compte membre</strong> : tant que votre compte est actif, puis supprimé sur demande ou après une période d'inactivité de 3 ans.</p>
+		<p><strong>Messages de contact</strong> : le temps nécessaire au traitement de votre demande, puis 12 mois au maximum.</p>
+		<p><strong>Demandes de partenariat</strong> : le temps de l'étude de la demande, puis 12 mois au maximum si elle n'aboutit pas.</p>
+		<p><strong>Compte partenaire</strong> : pendant toute la durée du partenariat, puis supprimé à sa fin.</p>
+		<p><strong>Données de mesure d'audience</strong> : selon la durée définie côté Google Analytics (14 mois) ; 13 mois au maximum pour Matomo.</p>
+	</section>
 
-	<h2>Durée de conservation</h2>
-	<ul>
-		<li><strong>Compte membre :</strong> tant que votre compte est actif, puis supprimé sur demande ou après une période d'inactivité <span class="todo">[à compléter : ex. 3 ans]</span>.</li>
-		<li><strong>Messages de contact :</strong> le temps nécessaire au traitement de votre demande, puis <span class="todo">[à compléter : ex. 12 mois]</span> au maximum.</li>
-		<li><strong>Données de mesure d'audience :</strong> selon la durée définie côté Google Analytics <span class="todo">[à compléter : ex. 14 mois]</span>.</li>
-	</ul>
+	<section class="bz-legal__carte">
+		<h2>Destinataires et sous-traitants</h2>
+		<p>Vos données sont accessibles uniquement à l'équipe Bondiz et aux prestataires techniques nécessaires au fonctionnement du site :</p>
+		<ul>
+			<li><strong>Notre hébergeur</strong> : le site est hébergé sur un serveur de l'établissement d'enseignement qui accueille le projet, à Angers (voir les <a href="{{ path('app_legal_notice') }}">mentions légales</a>).</li>
+			<li><strong>Supabase</strong> (base de données et stockage des images de l'application et de l'espace partenaire) : serveurs situés en Irlande, dans l'Union européenne.</li>
+			<li><strong>Matomo</strong> (mesure d'audience) : instance gérée par l'équipe Bondiz, sur son propre serveur ; uniquement si vous avez accepté ce cookie. Les données ne sont pas partagées avec des tiers.</li>
+			<li><strong>Google Ireland Ltd. (Google Analytics)</strong> : uniquement si vous avez accepté ce cookie ; sans votre accord, aucune donnée n'est envoyée à Google Analytics. Des transferts de données hors Union européenne peuvent avoir lieu, encadrés par les garanties prévues par le RGPD.</li>
+			<li><strong>Google Fonts (chargement de la police d'écriture)</strong> : ce qui implique que votre adresse IP est transmise à Google lors du chargement de la page.</li>
+			<li><strong>jsDelivr (chargement de l'outil de gestion des cookies)</strong> : votre adresse IP est transmise à ce service lors du chargement de la page.</li>
+		</ul>
+	</section>
 
-	<h2>Destinataires et sous-traitants</h2>
-	<p>Vos données sont accessibles uniquement à l'équipe Bondiz et aux prestataires techniques nécessaires au fonctionnement du site :</p>
-	<ul>
-		<li>Notre hébergeur : <span class="todo">[à compléter]</span></li>
-		<li>Google Ireland Ltd. (Google Analytics), uniquement si vous avez accepté ce cookie. Des transferts de données hors Union européenne peuvent avoir lieu, encadrés par les garanties prévues par le RGPD.</li>
-		<li>Google Fonts (chargement de la police d'écriture), ce qui implique que votre adresse IP est transmise à Google lors du chargement de la page.</li>
-	</ul>
+	<section class="bz-legal__carte">
+		<h2>Vos droits</h2>
+		<p>Vous disposez des droits suivants sur vos données :</p>
+		<ul class="bz-legal__liste-serree">
+			<li>accès, rectification et effacement</li>
+			<li>limitation du traitement et opposition</li>
+			<li>portabilité de vos données</li>
+			<li>retrait de votre consentement à tout moment (par exemple pour les cookies de mesure d'audience)</li>
+			<li>définir des directives sur le sort de vos données après votre décès.</li>
+		</ul>
+		<p>Pour exercer vos droits, écrivez-nous à <a href="mailto:contact@bondiz.fr">contact@bondiz.fr</a>. Nous pouvons vous demander un justificatif d'identité en cas de doute. Nous répondons dans un délai d'un mois.</p>
+		<p>Si vous estimez, après nous avoir contactés, que vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès de la CNIL : <a href="https://www.cnil.fr/fr/plaintes" target="_blank" rel="noopener noreferrer">www.cnil.fr/fr/plaintes</a>.</p>
+	</section>
 
-	<h2>Vos droits</h2>
-	<p>Vous disposez des droits suivants sur vos données :</p>
-	<ul>
-		<li>accès, rectification et effacement ;</li>
-		<li>limitation du traitement et opposition ;</li>
-		<li>portabilité de vos données ;</li>
-		<li>retrait de votre consentement à tout moment (par exemple pour les cookies de mesure d'audience) ;</li>
-		<li>définir des directives sur le sort de vos données après votre décès.</li>
-	</ul>
-	<p>
-		Pour exercer vos droits, écrivez-nous à <a href="mailto:contact@bondiz.fr">contact@bondiz.fr</a>. Nous pouvons vous demander un justificatif d'identité en cas de doute. Nous répondons dans un délai d'un mois.
-	</p>
-	<p>
-		Si vous estimez, après nous avoir contactés, que vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès de la CNIL : <a href="https://www.cnil.fr/fr/plaintes" target="_blank" rel="noopener noreferrer">www.cnil.fr/fr/plaintes</a>.
-	</p>
+	<section class="bz-legal__carte">
+		<h2>Sécurité</h2>
+		<p>Les mots de passe sont stockés sous forme hachée et les échanges avec le site sont protégés. Nous mettons en œuvre des mesures techniques et organisationnelles raisonnables pour protéger vos données contre l'accès non autorisé, la perte ou l'altération.</p>
+	</section>
 
-	<h2>Sécurité</h2>
-	<p>
-		Les mots de passe sont stockés sous forme hachée et les échanges avec le site sont protégés. Nous mettons en œuvre des mesures techniques et organisationnelles raisonnables pour protéger vos données contre l'accès non autorisé, la perte ou l'altération.
-	</p>
+	<section class="bz-legal__carte">
+		<h2>Mineurs</h2>
+		<p>Le site n'est pas destiné aux personnes de moins de 15 ans. Si vous pensez qu'un mineur nous a transmis des données sans autorisation parentale, contactez-nous pour les faire supprimer.</p>
+	</section>
 
-	<h2>Mineurs</h2>
-	<p>
-		Le site n'est pas destiné aux personnes de moins de 15 ans. Si vous pensez qu'un mineur nous a transmis des données sans autorisation parentale, contactez-nous pour les faire supprimer.
-	</p>
-
-	<h2>Modifications</h2>
-	<p>
-		Cette politique peut évoluer, notamment au fil du développement de Bondiz. La date de dernière mise à jour figure en haut de la page.
-	</p>
+	<section class="bz-legal__carte">
+		<h2>Modifications</h2>
+		<p>Cette politique peut évoluer, notamment au fil du développement de Bondiz. La date de dernière mise à jour figure en haut de la page.</p>
+	</section>
 {% endblock %}

@@ -14,6 +14,14 @@ class HomeController extends AbstractController
     {
         return $this->render('home/home.html.twig');
     }
+
+    /** Liens vers les magasins d'applications (maquette « TÉLÉCHARGER L'APPLICATION »). */
+    #[Route('/telecharger', name: 'app_download')]
+    public function download(): Response
+    {
+        return $this->render('home/telecharger.html.twig');
+    }
+
     #[Route('/qui-sommes-nous', name: 'app_about')]
     public function about(): Response
     {

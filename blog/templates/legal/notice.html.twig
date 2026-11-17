@@ -1,37 +1,42 @@
 {% extends 'legal/layout.html.twig' %}
 
 {% block title %}Mentions légales - Bondiz{% endblock %}
-{% block legal_title %}Mentions <span class="text-gradient">légales</span>{% endblock %}
+{% block legal_title %}MENTIONS{% endblock %}
+{% block legal_title_fort %}LÉGALES{% endblock %}
 
 {% block legal_content %}
-	<h2>Éditeur du site</h2>
-	<p>
-		Le site <strong>Bondiz</strong> est édité par le projet Bondiz, porté par une équipe de 8 étudiants.<br>
-		Statut juridique : <span class="todo">[à compléter : association, micro-entreprise, projet étudiant…]</span><br>
-		Adresse : <span class="todo">[à compléter]</span><br>
-		Contact : <a href="mailto:contact@bondiz.fr">contact@bondiz.fr</a>
-	</p>
+	<section class="bz-legal__carte">
+		<h2>Éditeur du site</h2>
+		<p>Le présent site est édité dans le cadre du projet étudiant Bondiz, une application en cours de développement dont l’objectif est de faciliter les rencontres et les activités partagées, en commençant par la ville d’Angers. À ce jour, Bondiz est un projet étudiant qui ne dispose pas de structure juridique propre.</p>
+		<p>
+			<strong>Adresse</strong> : Rue Georges Mandel, 49000 Angers<br>
+			<strong>Contact</strong> : <a href="mailto:contact@bondiz.fr">contact@bondiz.fr</a>
+		</p>
+	</section>
 
-	<h2>Directeur de la publication</h2>
-	<p><span class="todo">[à compléter : nom du responsable de publication]</span></p>
+	<section class="bz-legal__carte">
+		<h2>Responsable de la publication</h2>
+		<p>Alicia SMITI, responsable Marketing Digital au sein du projet étudiant Bondiz.</p>
+	</section>
 
-	<h2>Hébergement</h2>
-	<p>
-		Le site est hébergé par : <span class="todo">[à compléter : nom, adresse et contact de l'hébergeur]</span>
-	</p>
+	<section class="bz-legal__carte">
+		<h2>Hébergement</h2>
+		<p>Le site est hébergé sur un serveur de l’établissement d’enseignement qui accueille le projet Bondiz, rue Georges Mandel, 49000 Angers.</p>
+		<p>Les données de l’application et de l’espace partenaire (comptes partenaires, activités, images) sont stockées par Supabase, sur des serveurs situés en Irlande (Union européenne).</p>
+	</section>
 
-	<h2>Propriété intellectuelle</h2>
-	<p>
-		L'ensemble des contenus du site (textes, logo, images, graphismes) est la propriété de Bondiz, sauf mention contraire. Toute reproduction, représentation ou diffusion, totale ou partielle, sans autorisation préalable est interdite.
-	</p>
+	<section class="bz-legal__carte">
+		<h2>Propriété intellectuelle</h2>
+		<p>L'ensemble des contenus du site (textes, logo, images, graphismes) est la propriété de Bondiz, sauf mention contraire. Toute reproduction, représentation ou diffusion, totale ou partielle, sans autorisation préalable est interdite.</p>
+	</section>
 
-	<h2>Responsabilité</h2>
-	<p>
-		Bondiz s'efforce de fournir des informations exactes et à jour, mais ne peut garantir l'absence d'erreurs. Le projet étant en phase de développement, les fonctionnalités et informations présentées peuvent évoluer. Les liens vers des sites tiers sont fournis à titre informatif et n'engagent pas la responsabilité de Bondiz.
-	</p>
+	<section class="bz-legal__carte">
+		<h2>Responsabilité</h2>
+		<p>Bondiz s'efforce de fournir des informations exactes et à jour, mais ne peut garantir l'absence d'erreurs. Le projet étant en phase de développement, les fonctionnalités et informations présentées peuvent évoluer. Les liens vers des sites tiers sont fournis à titre informatif et n'engagent pas la responsabilité de Bondiz.</p>
+	</section>
 
-	<h2>Données personnelles</h2>
-	<p>
-		Le traitement de vos données personnelles est détaillé dans notre <a href="{{ path('app_privacy') }}">politique de confidentialité</a>, et l'usage des cookies dans notre <a href="{{ path('app_cookies') }}">politique cookies</a>.
-	</p>
+	<section class="bz-legal__carte">
+		<h2>Données personnelles</h2>
+		<p>Le traitement de vos données personnelles est détaillé dans notre <a href="{{ path('app_privacy') }}">politique de confidentialité</a>, et l'usage des cookies dans notre <a href="{{ path('app_cookies') }}">politique de gestion des cookies</a>.</p>
+	</section>
 {% endblock %}

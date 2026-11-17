@@ -202,6 +202,72 @@
     object-fit: contain;
 }
 
+/* Carte photo : nom, catégorie et ville sur un dégradé rose */
+.bz-partenaire--photo {
+    position: relative;
+    box-sizing: border-box;
+    width: var(--bz-vignette-largeur);
+    min-height: var(--bz-vignette-hauteur);
+    justify-content: flex-end;
+    align-items: stretch;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid var(--bz-bordure);
+    border-radius: var(--bz-rayon-vignette);
+    box-shadow: var(--bz-ombre-carte);
+    text-align: left;
+}
+
+.bz-partenaire__photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.bz-partenaire__legende {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 3px;
+    min-height: 218px;
+    padding: 0 20px 18px 24px;
+    box-sizing: border-box;
+    background: linear-gradient(to bottom, rgba(249, 140, 215, 0), var(--bz-rose));
+    color: var(--bz-blanc);
+}
+
+.bz-partenaire__legende p {
+    margin: 0;
+    line-height: 20px;
+}
+
+.bz-partenaire__titre {
+    font-size: 1.4375rem;
+    font-weight: 800;
+}
+
+.bz-partenaire__categorie {
+    font-weight: var(--bz-graisse-grasse);
+}
+
+.bz-partenaire__ville {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-size: var(--bz-taille-petite);
+    font-weight: var(--bz-graisse-demi);
+}
+
+/* Pictogramme gris de l'espace partenaire, passé en blanc */
+.bz-partenaire__ville img {
+    width: 14px;
+    height: 14px;
+    filter: brightness(0) invert(1);
+}
+
 .bz-partenaire__lien {
     font-weight: var(--bz-graisse-demi);
     color: var(--bz-violet);

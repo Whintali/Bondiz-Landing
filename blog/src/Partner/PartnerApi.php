@@ -3,6 +3,7 @@
 namespace App\Partner;
 
 use App\Security\PartnerUser;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -93,7 +94,12 @@ class PartnerApi
                 return [];
             }
 
-            $body = $response->toArray(false);
+            try {
+                $body = $response->toArray(false);
+            } catch (DecodingExceptionInterface) {
+                // Corps vide ou non JSON (page d'erreur d'un proxy…) : le statut suffit.
+                $body = [];
+            }
         } catch (ExceptionInterface) {
             throw new PartnerApiException('Le service Bondiz est momentanément indisponible. Réessayez dans quelques instants.', 503);
         }

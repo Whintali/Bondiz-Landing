@@ -66,25 +66,64 @@ class PartnerController extends AbstractController
         ]);
     }
 
+    public const FILTRES_ACTIVITES = ['toutes', 'a-venir', 'passees'];
+
     #[Route('/activites', name: 'app_partner_activities', methods: ['GET'])]
-    public function activities(#[CurrentUser] PartnerUser $partner): Response
+    public function activities(Request $request, #[CurrentUser] PartnerUser $partner, PartnerDashboard $partnerDashboard): Response
     {
         $activities = $this->loadActivities($partner);
         if ($activities instanceof Response) {
             return $activities;
         }
 
-        $now = new \DateTimeImmutable();
-        $isPast = static function (array $activity) use ($now): bool {
-            $end = $activity['endDate'] ?? $activity['startDate'];
-
-            return null !== $end && new \DateTimeImmutable($end) < $now;
-        };
+        $filtre = $request->query->getString('filtre', 'toutes');
+        if (!\in_array($filtre, self::FILTRES_ACTIVITES, true)) {
+            $filtre = 'toutes';
+        }
 
         return $this->render('partner/activities.html.twig', [
-            'upcoming' => array_values(array_filter($activities, static fn ($activity) => !$isPast($activity))),
-            'past' => array_values(array_filter($activities, $isPast)),
+            'tableau' => $partnerDashboard->build($activities),
+            'liste' => $partnerDashboard->liste($activities),
+            'filtre' => $filtre,
         ]);
+    }
+
+    #[Route('/statistiques', name: 'app_partner_statistics', methods: ['GET'])]
+    public function statistics(#[CurrentUser] PartnerUser $partner, PartnerDashboard $partnerDashboard): Response
+    {
+        $activities = $this->loadActivities($partner);
+        if ($activities instanceof Response) {
+            return $activities;
+        }
+
+        return $this->render('partner/statistics.html.twig', [
+            'tableau' => $partnerDashboard->build($activities),
+        ]);
+    }
+
+    /**
+     * Fiche de l'établissement. Strapi ne transmet pour l'instant que le nom,
+     * la catégorie, la ville et le statut du partenaire : adresse, photos,
+     * horaires et description restent à compléter par l'équipe Bondiz.
+     */
+    #[Route('/etablissement', name: 'app_partner_establishment', methods: ['GET'])]
+    public function establishment(#[CurrentUser] PartnerUser $partner, PartnerDashboard $partnerDashboard): Response
+    {
+        $activities = $this->loadActivities($partner);
+        if ($activities instanceof Response) {
+            return $activities;
+        }
+
+        return $this->render('partner/establishment.html.twig', [
+            'tableau' => $partnerDashboard->build($activities),
+        ]);
+    }
+
+    /** Messagerie avec l'équipe Bondiz : l'échange de messages n'est pas encore branché. */
+    #[Route('/messages', name: 'app_partner_messages', methods: ['GET'])]
+    public function messages(): Response
+    {
+        return $this->render('partner/messages.html.twig');
     }
 
     /**

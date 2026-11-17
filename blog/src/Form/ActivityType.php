@@ -85,10 +85,15 @@ class ActivityType extends AbstractType
      */
     public function validateRanges(array $data, ExecutionContextInterface $context): void
     {
-        if ($data['startDate'] && $data['endDate'] && $data['endDate'] < $data['startDate']) {
+        // Un champ mal saisi (date illisible…) est absent des données : déjà signalé sur le champ.
+        $start = $data['startDate'] ?? null;
+        $end = $data['endDate'] ?? null;
+        if ($start && $end && $end < $start) {
             $context->buildViolation('La fin doit être après le début.')->atPath('[endDate]')->addViolation();
         }
-        if ($data['minParticipants'] && $data['maxParticipants'] && $data['minParticipants'] > $data['maxParticipants']) {
+        $min = $data['minParticipants'] ?? null;
+        $max = $data['maxParticipants'] ?? null;
+        if ($min && $max && $min > $max) {
             $context->buildViolation('Le minimum ne peut pas dépasser le maximum.')->atPath('[minParticipants]')->addViolation();
         }
     }

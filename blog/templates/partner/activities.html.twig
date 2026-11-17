@@ -1,85 +1,107 @@
 {% extends 'partner/_espace.html.twig' %}
 
+{% import 'partner/_macros.html.twig' as espace %}
+
 {% block title %}Mes activités - Espace partenaire Bondiz{% endblock %}
 
-{% macro activite(activity, past = false) %}
-	{% set tz = 'Europe/Paris' %}
-	<article class="bz-panneau bz-activite-partenaire{{ past ? ' bz-activite-partenaire--passee' }}">
-		<div class="bz-activite-partenaire__texte">
-			<h3 class="bz-panneau__titre">{{ activity.title }}</h3>
-			<ul class="bz-activite-partenaire__infos">
-				<li>
-					<span>Quand</span>
-					{% if activity.startDate %}
-						{{ activity.startDate|date('d/m/Y \\à H\\hi', tz) }}
-						{% if activity.endDate %}
-							→ {{ activity.endDate|date(activity.endDate|date('Ymd', tz) == activity.startDate|date('Ymd', tz) ? 'H\\hi' : 'd/m/Y \\à H\\hi', tz) }}
-						{% endif %}
-					{% else %}
-						Date libre
-					{% endif %}
-				</li>
-				{% if activity.location %}
-					<li><span>Où</span> {{ activity.location }}</li>
-				{% endif %}
-				<li>
-					<span>Prix</span>
-					{{ activity.price is not null ? (activity.price == 0 ? 'Gratuit' : activity.price|number_format(2, ',', ' ') ~ ' €') : 'Non renseigné' }}
-				</li>
-				{% if activity.minParticipants or activity.maxParticipants %}
-					<li>
-						<span>Groupe</span>
-						{% if activity.minParticipants and activity.maxParticipants %}
-							{{ activity.minParticipants }} à {{ activity.maxParticipants }} personnes
-						{% elseif activity.maxParticipants %}
-							jusqu’à {{ activity.maxParticipants }} personnes
-						{% else %}
-							{{ activity.minParticipants }} personnes minimum
-						{% endif %}
-					</li>
-				{% endif %}
-			</ul>
-		</div>
-		<div class="bz-activite-partenaire__actions">
-			<span class="bz-prochaine__reservations">{{ activity.bookingsCount }} réservation{{ activity.bookingsCount > 1 ? 's' }}</span>
-			<a href="{{ path('app_partner_activity_edit', {id: activity.documentId}) }}" class="bz-lien-action">Modifier</a>
-			{% if activity.bookingsCount == 0 %}
-				<form method="post" action="{{ path('app_partner_activity_delete', {id: activity.documentId}) }}" onsubmit="return confirm('Supprimer définitivement « {{ activity.title|e('js') }} » ?');">
-					<input type="hidden" name="_token" value="{{ csrf_token('delete-activity-' ~ activity.documentId) }}">
-					<button type="submit" class="bz-lien-action bz-lien-action--danger">Supprimer</button>
-				</form>
+{#
+	Ligne d'activité : vignette, titre et description, statut, réservations,
+	date, puis les actions (modifier, supprimer) dans le menu « ⋮ ».
+#}
+{% macro activite(activity, passee = false) %}
+	{% import 'partner/_macros.html.twig' as espace %}
+	<li class="bz-ligne-activite{{ passee ? ' bz-ligne-activite--passee' }}">
+		{{ espace.vignette() }}
+		<div class="bz-ligne-activite__texte">
+			<h3 class="bz-ligne-activite__titre">{{ activity.title }}</h3>
+			{% if activity.description %}
+				{% set description = activity.description|striptags|trim %}
+				<p class="bz-ligne-activite__description">{{ description|length > 90 ? description|slice(0, 88)|trim ~ '…' : description }}</p>
+			{% elseif activity.location %}
+				<p class="bz-ligne-activite__description">{{ activity.location }}</p>
 			{% endif %}
 		</div>
-	</article>
+		<span class="bz-pastille {{ passee ? 'bz-pastille--grise' : 'bz-pastille--verte' }}">{{ passee ? 'Terminée' : 'Publiée' }}</span>
+		<span class="bz-pastille bz-pastille--violette">
+			{{- activity.bookingsCount }}{{ activity.maxParticipants ? ' / ' ~ activity.maxParticipants }} réservation{{ (activity.maxParticipants ?: activity.bookingsCount) > 1 ? 's' -}}
+		</span>
+		<p class="bz-ligne-activite__date">
+			<img src="{{ asset('images/espace-partenaire/calendrier-gris.png') }}" alt="">
+			{% if activity.debut %}
+				<time datetime="{{ activity.debut|date('c') }}">{{ activity.dateCourte }}</time>
+			{% else %}
+				Date libre
+			{% endif %}
+		</p>
+		<a href="{{ path('app_partner_activity_edit', {id: activity.documentId}) }}" class="bz-bouton-contour">{{ passee ? 'Voir l’activité' : 'Modifier' }}</a>
+		<details class="bz-ligne-activite__menu">
+			<summary aria-label="Autres actions pour « {{ activity.title }} »"><span></span><span></span><span></span></summary>
+			<div class="bz-ligne-activite__actions">
+				<a href="{{ path('app_partner_activity_edit', {id: activity.documentId}) }}" class="bz-lien-action">Modifier</a>
+				{% if activity.bookingsCount == 0 %}
+					<form method="post" action="{{ path('app_partner_activity_delete', {id: activity.documentId}) }}" onsubmit="return confirm('Supprimer définitivement « {{ activity.title|e('js') }} » ?');">
+						<input type="hidden" name="_token" value="{{ csrf_token('delete-activity-' ~ activity.documentId) }}">
+						<button type="submit" class="bz-lien-action bz-lien-action--danger">Supprimer</button>
+					</form>
+				{% else %}
+					<span class="bz-ligne-activite__info">Suppression impossible : l’activité a des réservations.</span>
+				{% endif %}
+			</div>
+		</details>
+	</li>
 {% endmacro %}
 
 {% block contenu %}
+	{% set chiffres = tableau.indicateurs %}
+
 	<div class="bz-espace__titre bz-espace__titre--actions">
 		<div>
 			<h1>Mes activités</h1>
-			<p>Les activités publiées ici apparaissent dans l’application Bondiz, où les utilisateurs peuvent les réserver.</p>
+			<p>Retrouvez et gérez vos activités.</p>
 		</div>
 		<a href="{{ path('app_partner_activity_new') }}" class="bz-bouton bz-bouton--jaune">+ Nouvelle activité</a>
 	</div>
 
-	<section class="bz-activites-partenaire">
-		<h2 class="bz-activites-partenaire__titre">À venir <span>{{ upcoming|length }}</span></h2>
-		{% for activity in upcoming %}
-			{{ _self.activite(activity) }}
-		{% else %}
-			<div class="bz-panneau bz-prochaines__vide">
-				<p>Aucune activité à venir.</p>
-				<a href="{{ path('app_partner_activity_new') }}" class="bz-bouton-violet">Proposer ma première activité</a>
-			</div>
-		{% endfor %}
+	<section class="bz-indicateurs" aria-label="Chiffres du mois">
+		{{ espace.indicateur('Nombre d’activités', 'violet', 'calendrier-blanc.png', chiffres.activites.valeur, chiffres.activites.evolution) }}
+		{{ espace.indicateur('Nombre de participants', 'rose', 'personnes.png', chiffres.participants.valeur, chiffres.participants.evolution) }}
+		{{ espace.indicateur('Taux de remplissage', 'jaune', 'etoile.png', chiffres.remplissage.valeur, chiffres.remplissage.evolution, '%') }}
+		{# Les avis des participants ne sont pas encore recueillis. #}
+		{{ espace.indicateur('Satisfaction moyenne', 'violet', 'etoile.png', null, null, '', '') }}
 	</section>
 
-	{% if past is not empty %}
-		<section class="bz-activites-partenaire">
-			<h2 class="bz-activites-partenaire__titre">Passées <span>{{ past|length }}</span></h2>
-			{% for activity in past %}
-				{{ _self.activite(activity, true) }}
-			{% endfor %}
-		</section>
-	{% endif %}
+	{% set filtres = { 'toutes': 'Toutes mes activités', 'a-venir': 'À venir', 'passees': 'Passées' } %}
+	<section class="bz-panneau bz-liste-activites">
+		<div class="bz-panneau__entete">
+			<nav class="bz-filtres-activites" aria-label="Filtrer les activités">
+				{% for cle, libelle in filtres %}
+					<a href="{{ path('app_partner_activities', cle == 'toutes' ? {} : {filtre: cle}) }}" class="bz-filtre{{ cle == filtre ? ' bz-filtre--actif' }}"{{ cle == filtre ? ' aria-current="page"' }}>{{ libelle }}</a>
+				{% endfor %}
+			</nav>
+			{% if filtre != 'toutes' %}
+				<a href="{{ path('app_partner_activities') }}" class="bz-prochaines__tous">Voir tous</a>
+			{% endif %}
+		</div>
+
+		{% set a_venir = filtre != 'passees' ? liste.a_venir : [] %}
+		{% set passees = filtre != 'a-venir' ? liste.passees : [] %}
+
+		{% if a_venir is empty and passees is empty %}
+			<div class="bz-prochaines__vide">
+				<p>{{ filtre == 'passees' ? 'Aucune activité passée.' : 'Aucune activité à venir.' }}</p>
+				<a href="{{ path('app_partner_activity_new') }}" class="bz-bouton-violet">Proposer une activité</a>
+			</div>
+		{% else %}
+			<ul class="bz-lignes-activites">
+				{% for activity in a_venir %}
+					{{ _self.activite(activity) }}
+				{% endfor %}
+				{% for activity in passees %}
+					{{ _self.activite(activity, true) }}
+				{% endfor %}
+			</ul>
+		{% endif %}
+	</section>
+
+	{{ espace.aide('large') }}
 {% endblock %}

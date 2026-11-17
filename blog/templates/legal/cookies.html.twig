@@ -1,58 +1,63 @@
 {% extends 'legal/layout.html.twig' %}
 
-{% block title %}Politique cookies - Bondiz{% endblock %}
-{% block legal_title %}Politique <span class="text-gradient">cookies</span>{% endblock %}
+{% block title %}Politique de gestion des cookies - Bondiz{% endblock %}
+{% block legal_title %}POLITIQUE{% endblock %}
+{% block legal_title_fort %}DE GESTION DES COOKIES{% endblock %}
 
 {% block legal_content %}
-	<h2>Qu'est-ce qu'un cookie ?</h2>
-	<p>
-		Un cookie est un petit fichier déposé sur votre appareil lors de la visite d'un site. Il permet, par exemple, de mémoriser votre connexion ou de mesurer la fréquentation du site.
-	</p>
+	<section class="bz-legal__carte">
+		<h2>Qu’est-ce qu’un cookie&nbsp;?</h2>
+		<p>Un cookie est un petit fichier déposé sur votre appareil lors de la visite d'un site. Il permet, par exemple, de mémoriser votre connexion ou de mesurer la fréquentation du site.</p>
+	</section>
 
-	<h2>Les cookies que nous utilisons</h2>
-	<div class="legal-table-wrap">
-		<table>
-			<thead>
-				<tr><th>Cookie</th><th>Type</th><th>Finalité</th><th>Consentement</th></tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td><code>PHPSESSID</code></td>
-					<td>Technique</td>
-					<td>Maintenir votre session (connexion à l'espace membre, sécurité des formulaires). Supprimé à la fermeture du navigateur.</td>
-					<td>Non requis</td>
-				</tr>
-				<tr>
-					<td><code>bondiz_tarteaucitron</code></td>
-					<td>Technique</td>
-					<td>Mémoriser vos choix concernant les cookies.</td>
-					<td>Non requis</td>
-				</tr>
-				<tr>
-					<td><code>_ga</code>, <code>_ga_*</code></td>
-					<td>Mesure d'audience</td>
-					<td>Google Analytics 4 : statistiques de fréquentation du site (pages vues, provenance, appareil).</td>
-					<td><strong>Requis</strong> : déposés uniquement si vous acceptez</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+	<section class="bz-legal__carte">
+		<h2>Les cookies que nous utilisons</h2>
+		<div class="bz-legal__tableau">
+			<table>
+				<thead>
+					<tr><th scope="col">Cookie</th><th scope="col">Type</th><th scope="col">Finalité</th><th scope="col">Consentement</th></tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td data-label="Cookie">PHPSESSID</td>
+						<td data-label="Type">Technique</td>
+						<td data-label="Finalité">Maintenir votre session (connexion à l'espace membre, sécurité des formulaires). Supprimé à la fermeture du navigateur</td>
+						<td data-label="Consentement">Non requis</td>
+					</tr>
+					<tr>
+						<td data-label="Cookie">bondiz_tarteaucitron</td>
+						<td data-label="Type">Technique</td>
+						<td data-label="Finalité">Mémoriser vos choix concernant les cookies</td>
+						<td data-label="Consentement">Non requis</td>
+					</tr>
+					<tr>
+						<td data-label="Cookie">_ga, _ga_*</td>
+						<td data-label="Type">Mesure d’audience</td>
+						<td data-label="Finalité"><strong>Google Analytics 4</strong> : statistiques de fréquentation du site (pages vues, provenance, appareil).</td>
+						<td data-label="Consentement"><strong>Requis</strong> : déposés uniquement si vous acceptez</td>
+					</tr>
+					<tr>
+						<td data-label="Cookie">_pk_id, _pk_ses, _pk_ref</td>
+						<td data-label="Type">Mesure d’audience</td>
+						<td data-label="Finalité"><strong>Matomo</strong> : statistiques de fréquentation du site (pages vues, provenance, appareil), sans partage avec des tiers.</td>
+						<td data-label="Consentement"><strong>Requis</strong> : déposés uniquement si vous acceptez</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</section>
 
-	<h2>Gérer vos choix</h2>
-	<p>
-		Lors de votre première visite, un bandeau vous permet d'accepter ou de refuser les cookies non essentiels. Refuser est aussi simple qu'accepter, et votre refus n'affecte pas l'accès au site.
-	</p>
-	<p>
-		Vous pouvez modifier votre choix à tout moment en cliquant sur
-		<a href="#tarteaucitron">« Gérer mes cookies »</a>
-		(ou sur « Cookies » dans le pied de page).
-	</p>
-	<p>
-		Vous pouvez également configurer votre navigateur pour bloquer ou supprimer les cookies. Cela peut toutefois empêcher l'utilisation de certaines fonctionnalités, comme la connexion à l'espace membre.
-	</p>
+	<section class="bz-legal__carte">
+		<h2>Gérez vos choix</h2>
+		<p>Lors de votre première visite, un bandeau vous permet d'accepter ou de refuser les cookies non essentiels. Refuser est aussi simple qu'accepter, et votre refus n'affecte pas l'accès au site.</p>
+		<p>
+			Vous pouvez modifier votre choix à tout moment en cliquant sur <a href="#tarteaucitron">Gérer mes cookies</a> (ou sur « Cookies » dans le pied de page).<br>
+			Vous pouvez également configurer votre navigateur pour bloquer ou supprimer les cookies. Cela peut toutefois empêcher l'utilisation de certaines fonctionnalités, comme la connexion à l'espace membre.
+		</p>
+	</section>
 
-	<h2>Pour en savoir plus</h2>
-	<p>
-		Consultez notre <a href="{{ path('app_privacy') }}">politique de confidentialité</a> ou la page de la CNIL sur les cookies : <a href="https://www.cnil.fr/fr/cookies-et-autres-traceurs" target="_blank" rel="noopener noreferrer">www.cnil.fr</a>.
-	</p>
+	<section class="bz-legal__carte">
+		<h2>Pour en savoir plus</h2>
+		<p>Consultez notre <a href="{{ path('app_privacy') }}">politique de confidentialité</a> ou la page de la CNIL sur les cookies : <a href="https://www.cnil.fr/fr/cookies-et-autres-traceurs" target="_blank" rel="noopener noreferrer">www.cnil.fr</a>.</p>
+	</section>
 {% endblock %}

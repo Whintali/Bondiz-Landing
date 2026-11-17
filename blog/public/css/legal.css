@@ -1,0 +1,236 @@
+/*
+ * Pages légales — maquettes Figma « MENTIONS LÉGALES » (537:2778),
+ * « POLITIQUE DE CONFIDENTIALITÉ » (537:2669) et « POLITIQUE DE GESTION
+ * DES COOKIES » (537:2579). Fond, en-tête et pied de page : design.css.
+ */
+
+.bz-page--legal {
+    --bz-pied-espace: 98px;
+    --bz-legal-espace: 39px;
+}
+
+.bz-legal__heros .bz-conteneur {
+    padding-top: 50px;
+}
+
+.bz-legal__heros .bz-heros__accroche {
+    margin-bottom: 26px;
+}
+
+/* Les titres longs passent à la ligne, contrairement aux autres héros */
+.bz-legal__heros .bz-heros__accroche-ligne {
+    white-space: normal;
+}
+
+/* Pastille rose « Dernière mise à jour » */
+.bz-legal__date {
+    display: inline-flex;
+    align-items: center;
+    min-height: 52px;
+    margin: 0;
+    padding: 0 22px;
+    box-sizing: border-box;
+    background: var(--bz-rose);
+    border-radius: var(--bz-rayon-pilule);
+    font-weight: var(--bz-graisse-grasse);
+    color: var(--bz-blanc);
+}
+
+.bz-legal__intro {
+    max-width: 762px;
+    margin: 31px 0 0;
+    font-weight: var(--bz-graisse-demi);
+    line-height: var(--bz-interligne-texte);
+    color: var(--bz-blanc);
+}
+
+.bz-legal {
+    display: flex;
+    flex-direction: column;
+    gap: var(--bz-legal-espace);
+    margin-top: 144px;
+}
+
+.bz-legal__heros:has(.bz-legal__intro) + .bz-legal {
+    margin-top: 56px;
+}
+
+/* Carte blanche d'une rubrique */
+.bz-legal__carte {
+    padding: 44px 52px 40px;
+    background: var(--bz-blanc);
+    border-radius: var(--bz-rayon-carte);
+    box-shadow: var(--bz-ombre-carte);
+    font-size: var(--bz-taille-texte);
+    line-height: var(--bz-interligne-texte);
+    color: var(--bz-noir);
+}
+
+.bz-legal__carte h2 {
+    margin: 0 0 7px;
+    font-size: var(--bz-taille-titre);
+    font-weight: var(--bz-graisse-grasse);
+    line-height: var(--bz-interligne-titre);
+}
+
+.bz-legal__carte p,
+.bz-legal__carte ul {
+    margin: 0;
+}
+
+/* Une ligne vide entre deux paragraphes, comme dans la maquette */
+.bz-legal__carte p + p,
+.bz-legal__carte p + ul,
+.bz-legal__carte ul + p,
+.bz-legal__carte .bz-legal__tableau + p {
+    margin-top: var(--bz-interligne-texte);
+}
+
+.bz-legal__carte ul {
+    padding-left: 24px;
+}
+
+.bz-legal__carte strong {
+    font-weight: var(--bz-graisse-grasse);
+}
+
+.bz-legal__carte a {
+    font-weight: var(--bz-graisse-demi);
+    color: inherit;
+    text-decoration: underline;
+}
+
+/* Valeur restant à fournir */
+.bz-legal__a-completer {
+    font-weight: var(--bz-graisse-grasse);
+}
+
+/* Tableaux (cookies, données collectées) */
+.bz-legal__tableau {
+    margin-top: 36px;
+    overflow-x: auto;
+}
+
+.bz-legal__tableau table {
+    width: 100%;
+    min-width: 640px;
+    border-collapse: collapse;
+}
+
+.bz-legal__tableau th,
+.bz-legal__tableau td {
+    padding: 16px 20px 22px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--bz-bordure);
+}
+
+.bz-legal__tableau th:first-child,
+.bz-legal__tableau td:first-child {
+    padding-left: 41px;
+}
+
+.bz-legal__tableau th {
+    padding-top: 0;
+    padding-bottom: 4px;
+    font-size: 1.375rem;
+    font-weight: var(--bz-graisse-grasse);
+    line-height: 40px;
+}
+
+/* Tableau plus dense de la politique de confidentialité */
+.bz-legal__tableau--compact th {
+    font-size: var(--bz-taille-texte);
+}
+
+.bz-legal__tableau--compact td {
+    font-size: 0.875rem;
+    line-height: 1.375rem;
+}
+
+@media (max-width: 900px) {
+    .bz-page--legal {
+        --bz-legal-espace: 24px;
+    }
+
+    .bz-legal {
+        margin-top: 64px;
+    }
+
+    .bz-legal__heros:has(.bz-legal__intro) + .bz-legal {
+        margin-top: 40px;
+    }
+
+    .bz-legal__carte {
+        padding: 28px var(--bz-padding-carte) 28px;
+    }
+
+    .bz-legal__tableau th:first-child,
+    .bz-legal__tableau td:first-child {
+        padding-left: 0;
+    }
+}
+
+@media (max-width: 560px) {
+    .bz-legal__heros .bz-conteneur {
+        padding-top: 16px;
+    }
+
+    .bz-legal__date {
+        min-height: 44px;
+        padding: 0 18px;
+        font-size: 0.875rem;
+    }
+
+    .bz-legal__carte {
+        padding: 24px 20px;
+    }
+}
+
+/* Petits écrans : chaque ligne du tableau devient une fiche */
+@media (max-width: 700px) {
+    .bz-legal__tableau table {
+        min-width: 0;
+    }
+
+    .bz-legal__tableau thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+    }
+
+    .bz-legal__tableau tr {
+        display: block;
+        padding: 16px 0;
+        border-bottom: 1px solid var(--bz-bordure);
+    }
+
+    .bz-legal__tableau tr:first-child {
+        padding-top: 0;
+    }
+
+    .bz-legal__tableau td {
+        display: block;
+        padding: 4px 0;
+        border: 0;
+    }
+
+    .bz-legal__tableau td::before {
+        content: attr(data-label) ' : ';
+        font-weight: var(--bz-graisse-grasse);
+    }
+
+    .bz-legal__tableau td:first-child {
+        font-weight: var(--bz-graisse-grasse);
+    }
+
+    .bz-legal__tableau td:first-child::before {
+        content: none;
+    }
+
+    .bz-legal__tableau {
+        margin-top: 20px;
+    }
+}

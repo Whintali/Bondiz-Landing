@@ -21,6 +21,21 @@ class PublicPartners
     private const CACHE_TTL = 600;
     private const LIMIT = 12;
 
+    /** Libellés des catégories Strapi (champ « category » des partenaires). */
+    public const CATEGORIES = [
+        'restaurant' => 'Restaurant',
+        'bar' => 'Bar',
+        'cafe' => 'Café',
+        'bowling' => 'Bowling',
+        'escape_game' => 'Escape game',
+        'cinema' => 'Cinéma',
+        'museum' => 'Musée',
+        'sport' => 'Sport',
+        'karaoke' => 'Karaoké',
+        'concert_venue' => 'Salle de concert',
+        'other' => null,
+    ];
+
     public function __construct(
         private readonly HttpClientInterface $strapiClient,
         private readonly CacheInterface $cache,
@@ -30,7 +45,7 @@ class PublicPartners
     }
 
     /**
-     * @return list<array{name: string, logo: ?string, logoAlt: string}>
+     * @return list<array{name: string, logo: ?string, logoAlt: string, photo: ?string, category: ?string, city: ?string}>
      */
     public function list(): array
     {
@@ -40,8 +55,11 @@ class PublicPartners
             try {
                 $response = $this->strapiClient->request('GET', '/api/partners', [
                     'query' => [
-                        'fields' => ['name'],
-                        'populate' => ['logo' => ['fields' => ['url', 'alternativeText']]],
+                        'fields' => ['name', 'category', 'city'],
+                        'populate' => [
+                            'logo' => ['fields' => ['url', 'alternativeText']],
+                            'coverImage' => ['fields' => ['url', 'alternativeText']],
+                        ],
                         'sort' => 'name:asc',
                         'pagination' => ['pageSize' => self::LIMIT],
                     ],
@@ -63,7 +81,7 @@ class PublicPartners
     /**
      * @param array<string, mixed> $partner
      *
-     * @return array{name: string, logo: ?string, logoAlt: string}|null
+     * @return array{name: string, logo: ?string, logoAlt: string, photo: ?string, category: ?string, city: ?string}|null
      */
     private function format(array $partner): ?array
     {
@@ -76,6 +94,9 @@ class PublicPartners
             'name' => $name,
             'logo' => $this->absoluteUrl($partner['logo']['url'] ?? null),
             'logoAlt' => $partner['logo']['alternativeText'] ?? 'Logo de '.$name,
+            'photo' => $this->absoluteUrl($partner['coverImage']['url'] ?? null),
+            'category' => self::CATEGORIES[$partner['category'] ?? ''] ?? null,
+            'city' => $partner['city'] ?? null,
         ];
     }
 

@@ -60,7 +60,46 @@ class PartnerDashboard
             'participation' => $this->parSemaine($dated, $now, $semaines),
             'reservationsParMois' => $this->parMois($dated, $moisCourant),
             'prochaines' => $this->prochaines($dated, $now),
+            'totaux' => [
+                'activites' => \count($activities),
+                'participants' => $this->reservations($activities),
+            ],
+            'populaires' => $this->populaires($dated),
         ];
+    }
+
+    /**
+     * Activités de la page « Mes activités », avec leur date d'affichage :
+     * à venir (les plus proches d'abord), puis passées (les plus récentes d'abord).
+     *
+     * @param list<array<string, mixed>> $activities
+     *
+     * @return array{a_venir: list<array<string, mixed>>, passees: list<array<string, mixed>>}
+     */
+    public function liste(array $activities, ?\DateTimeImmutable $now = null): array
+    {
+        $tz = new \DateTimeZone(self::TIMEZONE);
+        $now ??= new \DateTimeImmutable('now');
+
+        $aVenir = [];
+        $passees = [];
+        foreach ($activities as $activity) {
+            $debut = empty($activity['startDate']) ? null : (new \DateTimeImmutable($activity['startDate']))->setTimezone($tz);
+            $fin = empty($activity['endDate']) ? $debut : new \DateTimeImmutable($activity['endDate']);
+            $activity += ['debut' => $debut, 'dateCourte' => $debut ? self::dateCourte($debut) : null];
+
+            if (null !== $fin && $fin < $now) {
+                $passees[] = $activity;
+            } else {
+                $aVenir[] = $activity;
+            }
+        }
+
+        // Sans date : en fin de liste des activités à venir.
+        usort($aVenir, static fn (array $a, array $b) => [null === $a['debut'], $a['debut']] <=> [null === $b['debut'], $b['debut']]);
+        usort($passees, static fn (array $a, array $b) => $b['debut'] <=> $a['debut']);
+
+        return ['a_venir' => $aVenir, 'passees' => $passees];
     }
 
     /** Format d'affichage des prochaines activités : « Sam. 10 oct 2026 - 14h00 ». */
@@ -158,6 +197,18 @@ class PartnerDashboard
             'points' => $points,
             'graduations' => array_reverse(range(0, $echelle, $pas)),
         ];
+    }
+
+    /** Les deux activités qui ont eu le plus de réservations, avec leur taux de remplissage. */
+    private function populaires(array $activities): array
+    {
+        $avecReservations = array_filter($activities, static fn (array $a) => ($a['bookingsCount'] ?? 0) > 0);
+        usort($avecReservations, static fn (array $a, array $b) => [$b['bookingsCount'], $b['debut']] <=> [$a['bookingsCount'], $a['debut']]);
+
+        return array_map(static fn (array $a) => $a + [
+            'dateCourte' => self::dateCourte($a['debut']),
+            'taux' => ($a['maxParticipants'] ?? 0) > 0 ? min(100, (int) round($a['bookingsCount'] / $a['maxParticipants'] * 100)) : null,
+        ], \array_slice($avecReservations, 0, 2));
     }
 
     private function prochaines(array $activities, \DateTimeImmutable $now): array

@@ -2,37 +2,7 @@
 
 {% block title %}Tableau de bord - Espace partenaire Bondiz{% endblock %}
 
-{#
-	Indicateur chiffré. L'évolution est comparée au mois précédent ; elle
-	n'est pas affichée quand ce mois-là est vide.
-#}
-{% macro indicateur(titre, couleur, icone, valeur, evolution, suffixe = '') %}
-	<article class="bz-indicateur">
-		<span class="bz-indicateur__rond bz-rond--{{ couleur }}" aria-hidden="true">
-			<img src="{{ asset('images/espace-partenaire/' ~ icone) }}" alt="">
-		</span>
-		<h2 class="bz-indicateur__titre">{{ titre }}</h2>
-		<p class="bz-indicateur__chiffres">
-			<span class="bz-indicateur__valeur">{{ valeur is null ? '–' : valeur|number_format(0, ',', ' ') ~ suffixe }}</span>
-			{% if evolution is not null %}
-				<span class="bz-indicateur__evolution{{ evolution < 0 ? ' bz-indicateur__evolution--baisse' }}">
-					<img src="{{ asset('images/espace-partenaire/hausse.png') }}" alt="" class="bz-indicateur__fleche">
-					{{ evolution > 0 ? '+' }}{{ evolution }}%
-				</span>
-			{% endif %}
-		</p>
-		<p class="bz-indicateur__comparaison">vs. mois dernier</p>
-	</article>
-{% endmacro %}
-
-{# Axe vertical et lignes de repère communs aux deux graphiques #}
-{% macro axe(graduations) %}
-	<ul class="bz-graphique__axe" aria-hidden="true">
-		{% for graduation in graduations %}
-			<li>{{ graduation }}</li>
-		{% endfor %}
-	</ul>
-{% endmacro %}
+{% import 'partner/_macros.html.twig' as espace %}
 
 {% block contenu %}
 	{% set chiffres = tableau.indicateurs %}
@@ -43,18 +13,11 @@
 	</div>
 
 	<section class="bz-indicateurs" aria-label="Chiffres du mois">
-		{{ _self.indicateur('Nombre de participants', 'violet', 'personnes.png', chiffres.participants.valeur, chiffres.participants.evolution) }}
-		{{ _self.indicateur('Activités proposées', 'rose', 'calendrier-blanc.png', chiffres.activites.valeur, chiffres.activites.evolution) }}
-		{{ _self.indicateur('Taux de remplissage', 'jaune', 'etoile.png', chiffres.remplissage.valeur, chiffres.remplissage.evolution, '%') }}
+		{{ espace.indicateur('Nombre de participants', 'violet', 'personnes.png', chiffres.participants.valeur, chiffres.participants.evolution) }}
+		{{ espace.indicateur('Activités proposées', 'rose', 'calendrier-blanc.png', chiffres.activites.valeur, chiffres.activites.evolution) }}
+		{{ espace.indicateur('Taux de remplissage', 'jaune', 'etoile.png', chiffres.remplissage.valeur, chiffres.remplissage.evolution, '%') }}
 		{# Le nombre de vues des fiches partenaires n'est pas encore enregistré. #}
-		<article class="bz-indicateur">
-			<span class="bz-indicateur__rond bz-rond--violet" aria-hidden="true">
-				<img src="{{ asset('images/espace-partenaire/oeil.png') }}" alt="">
-			</span>
-			<h2 class="bz-indicateur__titre">Vues de votre profil</h2>
-			<p class="bz-indicateur__chiffres"><span class="bz-indicateur__valeur">–</span></p>
-			<p class="bz-indicateur__comparaison">Bientôt disponible</p>
-		</article>
+		{{ espace.indicateur('Vues de votre profil', 'violet', 'oeil.png', null) }}
 	</section>
 
 	<div class="bz-tableau">
@@ -79,7 +42,7 @@
 				{% set serie = tableau.participation %}
 				{% set nombre = serie.points|length %}
 				<div class="bz-graphique__zone">
-					{{ _self.axe(serie.graduations) }}
+					{{ espace.axe(serie.graduations) }}
 					<div class="bz-graphique__trace" style="--bz-graphique-points: {{ nombre }}">
 						<svg class="bz-graphique__ligne" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
 							<polyline points="{% for point in serie.points %}{{ ((loop.index0 + 0.5) / nombre * 100)|round(2) }},{{ 100 - point.hauteur }} {% endfor %}"/>
@@ -97,30 +60,7 @@
 				</div>
 			</section>
 
-			<section class="bz-panneau bz-graphique bz-graphique--barres">
-				<div class="bz-panneau__entete">
-					<div>
-						<h2 class="bz-panneau__titre">Vos réservations par mois</h2>
-						<p class="bz-panneau__sous-titre">Évolution sur les 6 derniers mois</p>
-					</div>
-				</div>
-
-				{% set serie = tableau.reservationsParMois %}
-				<div class="bz-graphique__zone">
-					{{ _self.axe(serie.graduations) }}
-					<div class="bz-graphique__trace" style="--bz-graphique-points: {{ serie.points|length }}">
-						<ol class="bz-graphique__points">
-							{% for point in serie.points %}
-								<li style="--bz-point-hauteur: {{ point.hauteur }}%">
-									<span class="bz-graphique__barre" title="{{ point.valeur }} réservation{{ point.valeur > 1 ? 's' }}"></span>
-									<span class="bz-graphique__libelle">{{ point.libelle }}</span>
-									<span class="bz-visuellement-cache">: {{ point.valeur }} réservation{{ point.valeur > 1 ? 's' }}</span>
-								</li>
-							{% endfor %}
-						</ol>
-					</div>
-				</div>
-			</section>
+			{{ espace.reservations_par_mois(tableau.reservationsParMois) }}
 		</div>
 
 		<div class="bz-tableau__colonne bz-tableau__colonne--etroite">
@@ -133,9 +73,7 @@
 				<ul class="bz-prochaines__liste">
 					{% for activite in tableau.prochaines %}
 						<li class="bz-prochaine">
-							<span class="bz-prochaine__image" aria-hidden="true">
-								<img src="{{ asset('images/brand/logo-fantome.svg') }}" alt="">
-							</span>
+							{{ espace.vignette() }}
 							<div class="bz-prochaine__texte">
 								<a href="{{ path('app_partner_activity_edit', {id: activite.documentId}) }}" class="bz-prochaine__titre">{{ activite.title }}</a>
 								<p class="bz-prochaine__date">
@@ -155,14 +93,7 @@
 				</ul>
 			</section>
 
-			<section class="bz-panneau bz-aide">
-				<img src="{{ asset('images/espace-partenaire/ampoule.png') }}" alt="" class="bz-aide__icone">
-				<div>
-					<h2 class="bz-panneau__titre">Besoin d’aide&nbsp;?</h2>
-					<p class="bz-aide__texte">Notre équipe est là pour vous accompagner dans la gestion de vos activités et de vos réservations</p>
-					<a href="{{ path('app_contact') }}" class="bz-bouton bz-bouton--jaune bz-aide__bouton">Nous contacter</a>
-				</div>
-			</section>
+			{{ espace.aide() }}
 		</div>
 	</div>
 {% endblock %}

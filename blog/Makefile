@@ -102,6 +102,7 @@ reset:
 help:
 	@echo ""
 	@echo "Commandes disponibles :"
+	@echo "  make test                    Lancer les tests PHPUnit"
 	@echo "  make dc-up                   Lancer les containers"
 	@echo "  make dc-down                 Arrêter les containers"
 	@echo "  make dc-restart              Redémarrer les containers"
@@ -115,3 +116,11 @@ help:
 	@echo "  make console c=command       Commande Symfony"
 	@echo "  make reset                   Reset complet (volumes inclus)"
 	@echo ""
+
+# =========================
+# Tests
+# =========================
+
+## Lancer les tests PHPUnit (environnement de test, base SQLite et Strapi simulés)
+test:
+	$(DOCKER_COMPOSE) exec -e APP_ENV=test $(PHP_SERVICE) php bin/phpunit

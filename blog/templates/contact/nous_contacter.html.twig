@@ -27,13 +27,13 @@
 
 {% block body %}
 	{% set dossier = 'images/contact/' %}
-	{# Liens des réseaux sociaux : à renseigner dès que les comptes existent (comme dans le pied de page). #}
+	{# Liens des réseaux sociaux (comme dans le pied de page) : sans url, le bloc « Sur les réseaux » est masqué. #}
 	{% set reseaux = [
-		{ nom: 'Instagram', image: 'instagram.png', url: '#' },
-		{ nom: 'Facebook', image: 'facebook.png', url: '#' },
-		{ nom: 'LinkedIn', image: 'linkedin.png', url: '#' },
-		{ nom: 'TikTok', image: 'tiktok.png', url: '#' },
-	] %}
+		{ nom: 'Instagram', image: 'instagram.png', url: null },
+		{ nom: 'Facebook', image: 'facebook.png', url: null },
+		{ nom: 'LinkedIn', image: 'linkedin.png', url: null },
+		{ nom: 'TikTok', image: 'tiktok.png', url: null },
+	]|filter(reseau => reseau.url) %}
 
 	<main class="bz-principal">
 
@@ -63,20 +63,22 @@
 					<p class="bz-texte">Angers<br>(49 000)</p>
 					<a href="https://www.google.com/maps/search/?api=1&amp;query=Angers%2049000" class="bz-coordonnee__lien" target="_blank" rel="noopener">Voir sur Google Maps →</a>
 				</div>
-				<div class="bz-coordonnee">
-					<span class="bz-coordonnee__rond bz-rond--jaune"><img src="{{ asset(dossier ~ 'icone-reseaux.png') }}" alt=""></span>
-					<h2 class="bz-coordonnee__titre">Sur les réseaux</h2>
-					<p class="bz-texte">Suivez notre actualité et rejoignez notre communauté sur Instagram, Facebook, TikTok et LinkedIn.</p>
-					<ul class="bz-coordonnee__reseaux">
-						{% for reseau in reseaux %}
-							<li>
-								<a href="{{ reseau.url }}" class="bz-coordonnee__reseau" aria-label="Bondiz sur {{ reseau.nom }}">
-									<img src="{{ asset('images/brand/' ~ reseau.image) }}" alt="">
-								</a>
-							</li>
-						{% endfor %}
-					</ul>
-				</div>
+				{% if reseaux is not empty %}
+					<div class="bz-coordonnee">
+						<span class="bz-coordonnee__rond bz-rond--jaune"><img src="{{ asset(dossier ~ 'icone-reseaux.png') }}" alt=""></span>
+						<h2 class="bz-coordonnee__titre">Sur les réseaux</h2>
+						<p class="bz-texte">Suivez notre actualité et rejoignez notre communauté sur Instagram, Facebook, TikTok et LinkedIn.</p>
+						<ul class="bz-coordonnee__reseaux">
+							{% for reseau in reseaux %}
+								<li>
+									<a href="{{ reseau.url }}" class="bz-coordonnee__reseau" aria-label="Bondiz sur {{ reseau.nom }}">
+										<img src="{{ asset('images/brand/' ~ reseau.image) }}" alt="">
+									</a>
+								</li>
+							{% endfor %}
+						</ul>
+					</div>
+				{% endif %}
 			</div>
 		</section>
 
@@ -135,7 +137,7 @@
 					<a href="{{ path('app_devenir_partenaire') }}" class="bz-contact__pro-bouton">Découvrir le partenariat</a>
 				</div>
 				<div class="bz-contact__photo">
-					<img src="{{ asset(dossier ~ 'photo-amis.png') }}" alt="Un groupe d’amis souriants prend un selfie" loading="lazy">
+					<img src="{{ asset(dossier ~ 'photo-amis.webp') }}" alt="Un groupe d’amis souriants prend un selfie" loading="lazy">
 				</div>
 			</div>
 		</section>

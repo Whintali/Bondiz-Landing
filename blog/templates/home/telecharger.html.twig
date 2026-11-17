@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Télécharger l’application - Bondiz{% endblock %}
+
+{% block meta %}
+	{{ parent() }}
+	<meta name="description" content="Téléchargez Bondiz, l’application de rencontres amicales autour d’activités partagées à Angers.">
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('css/telecharger.css') }}">
+{% endblock %}
+
+{% block page_class %}bz-page--telecharger{% endblock %}
+
+{% block page_fond %}
+	<div class="bz-fond" aria-hidden="true">
+		<div class="bz-fond__tranche"></div>
+	</div>
+{% endblock %}
+
+{#
+	Maquette Figma « TÉLÉCHARGER L'APPLICATION » (537:2855). L'application
+	Android est distribuée en APK en attendant sa publication sur Google Play ;
+	la version iOS n'existe pas encore.
+#}
+{% block body %}
+	<main class="bz-principal">
+		<section class="bz-conteneur bz-telecharger">
+			<h1 class="bz-heros__accroche">
+				<span class="bz-heros__accroche-ligne">MOINS DE GHOSTING.</span>
+				<span class="bz-heros__accroche-ligne bz-heros__accroche-ligne--forte">PLUS DE RENCONTRES</span>
+			</h1>
+			<div class="bz-telecharger__boutons">
+				<span class="bz-bouton bz-bouton--rose bz-telecharger__bouton bz-telecharger__bouton--bientot" aria-disabled="true" title="Bientôt disponible sur l’App Store">
+					🍏 App Store
+					<span class="bz-visuellement-cache">(bientôt disponible)</span>
+				</span>
+				<a href="/downloads/bondiz.apk" download class="bz-bouton bz-bouton--rose bz-telecharger__bouton">
+					<img src="{{ asset('images/telecharger/android.png') }}" alt="">
+					Google Play
+				</a>
+			</div>
+		</section>
+	</main>
+{% endblock %}

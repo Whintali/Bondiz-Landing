@@ -30,17 +30,12 @@
 {% block body %}
 	{% set route = app.request.attributes.get('_route') %}
 	{% set dossier = 'images/espace-partenaire/' %}
-	{#
-		Rubriques du menu. Celles sans route ne sont pas encore développées :
-		elles restent visibles, mais grisées.
-	#}
 	{% set rubriques = [
 		{ nom: 'Tableau de bord', icone: 'accueil.png', route: 'app_partner_dashboard' },
 		{ nom: 'Mes activités', icone: 'calendrier-gris.png', route: 'app_partner_activities', actives: ['app_partner_activities', 'app_partner_activity_new', 'app_partner_activity_edit'] },
-		{ nom: 'Mes statistiques', icone: 'statistiques.png', route: 'app_partner_dashboard', ancre: '#statistiques', actives: [] },
-		{ nom: 'Mon établissement', icone: 'etablissement.png' },
-		{ nom: 'Messages', icone: 'messages.png' },
-		{ nom: 'Mon profil', icone: 'profil.png' },
+		{ nom: 'Mes statistiques', icone: 'statistiques.png', route: 'app_partner_statistics' },
+		{ nom: 'Mon établissement', icone: 'etablissement.png', route: 'app_partner_establishment' },
+		{ nom: 'Messages', icone: 'messages.png', route: 'app_partner_messages' },
 	] %}
 
 	<div class="bz-espace">

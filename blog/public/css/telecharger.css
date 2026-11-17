@@ -1,0 +1,54 @@
+/*
+ * Page « Télécharger l'application » — maquette Figma 537:2855 :
+ * accroche centrée et deux boutons roses, puis le pied de page.
+ */
+
+.bz-page--telecharger {
+    --bz-pied-espace: 120px;
+}
+
+.bz-telecharger {
+    padding-top: 130px;
+    text-align: center;
+}
+
+.bz-telecharger .bz-heros__accroche {
+    margin: 0 0 40px;
+}
+
+.bz-telecharger .bz-heros__accroche-ligne {
+    white-space: normal;
+}
+
+.bz-telecharger__boutons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px 38px;
+}
+
+.bz-telecharger__bouton {
+    gap: 6px;
+    width: 202px;
+}
+
+.bz-telecharger__bouton img {
+    width: 20px;
+    height: 20px;
+}
+
+/* Pas encore publiée sur l'App Store */
+.bz-telecharger__bouton--bientot {
+    cursor: default;
+}
+
+.bz-telecharger__bouton--bientot:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+@media (max-width: 560px) {
+    .bz-telecharger {
+        padding-top: 48px;
+    }
+}

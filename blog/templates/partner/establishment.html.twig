@@ -1,0 +1,129 @@
+{% extends 'partner/_espace.html.twig' %}
+
+{% import 'partner/_macros.html.twig' as espace %}
+
+{% block title %}Mon établissement - Espace partenaire Bondiz{% endblock %}
+
+{#
+	Strapi ne transmet pour l'instant que le nom, la catégorie, la ville et le
+	statut du partenaire. L'adresse, les photos, les horaires et la description
+	sont affichés « à compléter » : les modifications passent par l'équipe
+	Bondiz (lien « Nous contacter »).
+#}
+{% block contenu %}
+	{% set partenaire = app.user %}
+	{% set categories = {
+		restaurant: 'Restaurant', bar: 'Bar', cafe: 'Café', bowling: 'Bowling',
+		escape_game: 'Escape game', cinema: 'Cinéma', museum: 'Musée', sport: 'Sport',
+		karaoke: 'Karaoké', concert_venue: 'Salle de concert', other: 'Autre'
+	} %}
+	{% set statuts = {
+		active: { libelle: 'Publié', classe: 'verte' },
+		pending: { libelle: 'En attente de validation', classe: 'grise' },
+	} %}
+	{% set statut = statuts[partenaire.state] ?? null %}
+	{% set modifier = path('app_contact') %}
+	{% set a_completer %}<span class="bz-a-completer">À compléter</span>{% endset %}
+
+	<div class="bz-espace__titre">
+		<h1>Mon établissement</h1>
+		<p>Retrouvez et modifiez toutes les informations concernant votre établissement.</p>
+	</div>
+
+	<section class="bz-panneau bz-fiche">
+		<div class="bz-fiche__photo" aria-hidden="true">
+			<img src="{{ asset('images/brand/logo-fantome.svg') }}" alt="">
+		</div>
+
+		<div class="bz-fiche__infos">
+			<div class="bz-fiche__nom">
+				<h2>{{ partenaire.name }}</h2>
+				{% if statut %}
+					<span class="bz-pastille bz-pastille--{{ statut.classe }}">{{ statut.libelle }}</span>
+				{% endif %}
+			</div>
+			<ul class="bz-fiche__details">
+				<li>
+					<img src="{{ asset('images/espace-partenaire/localisation.png') }}" alt="Adresse">
+					{{ partenaire.city ?: a_completer }}
+				</li>
+				<li>
+					<img src="{{ asset('images/espace-partenaire/etiquette.png') }}" alt="Catégorie">
+					{{ categories[partenaire.category] ?? a_completer }}
+				</li>
+			</ul>
+			<a href="{{ modifier }}" class="bz-bouton-contour bz-bouton-contour--grand">
+				<img src="{{ asset('images/espace-partenaire/crayon.png') }}" alt="">
+				Modifier mes informations
+			</a>
+		</div>
+
+		<ul class="bz-fiche__chiffres">
+			<li>
+				<img src="{{ asset('images/espace-partenaire/calendrier-violet.png') }}" alt="">
+				<p><strong>{{ tableau.totaux.activites }}</strong> activité{{ tableau.totaux.activites > 1 ? 's' }} organisée{{ tableau.totaux.activites > 1 ? 's' }}</p>
+			</li>
+			<li>
+				<img src="{{ asset('images/espace-partenaire/personnes-violet.png') }}" alt="">
+				<p><strong>{{ tableau.totaux.participants }}</strong> participant{{ tableau.totaux.participants > 1 ? 's' }} au total</p>
+			</li>
+			<li>
+				<img src="{{ asset('images/espace-partenaire/etoile-violet.png') }}" alt="">
+				{# Les avis des participants ne sont pas encore recueillis. #}
+				<p><strong>–</strong> satisfaction moyenne</p>
+			</li>
+		</ul>
+	</section>
+
+	<div class="bz-etablissement">
+		<section class="bz-panneau bz-bloc-fiche">
+			<div class="bz-panneau__entete">
+				<h2 class="bz-bloc-fiche__titre">
+					<span class="bz-indicateur__rond bz-rond--violet" aria-hidden="true"><img src="{{ asset('images/espace-partenaire/image.png') }}" alt=""></span>
+					Photos de votre établissement
+				</h2>
+				<a href="{{ modifier }}" class="bz-prochaines__tous">Gérer les photos</a>
+			</div>
+			<div class="bz-photos">
+				<a href="{{ modifier }}" class="bz-photos__ajout">
+					<span aria-hidden="true">+</span>
+					Ajouter une photo
+				</a>
+			</div>
+		</section>
+
+		<section class="bz-panneau bz-bloc-fiche">
+			<div class="bz-panneau__entete">
+				<h2 class="bz-bloc-fiche__titre">
+					<span class="bz-indicateur__rond bz-rond--rose" aria-hidden="true"><img src="{{ asset('images/espace-partenaire/horloge.png') }}" alt=""></span>
+					Horaires d’ouverture
+				</h2>
+				<a href="{{ modifier }}" class="bz-prochaines__tous">Modifier</a>
+			</div>
+			<table class="bz-horaires">
+				<caption class="bz-visuellement-cache">Horaires d’ouverture</caption>
+				<tbody>
+					{% for jour in ['Lundi', 'Mardi - Vendredi', 'Samedi', 'Dimanche'] %}
+						<tr>
+							<th scope="row">{{ jour }}</th>
+							<td>{{ a_completer }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</section>
+
+		<section class="bz-panneau bz-bloc-fiche">
+			<div class="bz-panneau__entete">
+				<h2 class="bz-bloc-fiche__titre">
+					<span class="bz-indicateur__rond bz-rond--jaune" aria-hidden="true"><img src="{{ asset('images/espace-partenaire/document.png') }}" alt=""></span>
+					Description détaillée
+				</h2>
+				<a href="{{ modifier }}" class="bz-prochaines__tous">Modifier</a>
+			</div>
+			<p class="bz-bloc-fiche__texte">Présentez votre établissement aux utilisateurs de Bondiz : ce qu’on y fait, l’ambiance, ce qui le rend unique. Envoyez-nous votre texte, nous l’ajoutons à votre fiche.</p>
+		</section>
+
+		{{ espace.aide() }}
+	</div>
+{% endblock %}

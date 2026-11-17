@@ -45,6 +45,18 @@ class PartnerUser implements UserInterface
         return $this->partner['city'] ?? null;
     }
 
+    /** Catégorie Strapi (bar, cafe, museum…), libellé français via la page « Mon établissement ». */
+    public function getCategory(): ?string
+    {
+        return $this->partner['category'] ?? null;
+    }
+
+    /** Statut Strapi : pending, active, suspended ou rejected. */
+    public function getState(): ?string
+    {
+        return $this->partner['states'] ?? null;
+    }
+
     /**
      * Le jeton Strapi est valable 7 jours : au-delà, le partenaire doit se reconnecter.
      */

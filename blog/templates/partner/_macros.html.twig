@@ -1,0 +1,87 @@
+{#
+	Blocs communs aux pages de l'espace partenaire (tableau de bord, activités,
+	statistiques, établissement).
+#}
+
+{#
+	Indicateur chiffré. L'évolution est comparée au mois précédent ; elle
+	n'est pas affichée quand ce mois-là est vide. Sans valeur, le chiffre est
+	remplacé par un tiret et la comparaison par « Bientôt disponible ».
+#}
+{% macro indicateur(titre, couleur, icone, valeur, evolution = null, suffixe = '', comparaison = 'vs. mois dernier') %}
+	<article class="bz-indicateur">
+		<span class="bz-indicateur__rond bz-rond--{{ couleur }}" aria-hidden="true">
+			<img src="{{ asset('images/espace-partenaire/' ~ icone) }}" alt="">
+		</span>
+		<h2 class="bz-indicateur__titre">{{ titre }}</h2>
+		<p class="bz-indicateur__chiffres">
+			<span class="bz-indicateur__valeur">{{ valeur is null ? '–' : (valeur is same as(valeur ~ '') ? valeur : valeur|number_format(0, ',', ' ') ~ suffixe) }}</span>
+			{% if evolution is not null %}
+				<span class="bz-indicateur__evolution{{ evolution < 0 ? ' bz-indicateur__evolution--baisse' }}">
+					<img src="{{ asset('images/espace-partenaire/hausse.png') }}" alt="" class="bz-indicateur__fleche">
+					{{ evolution > 0 ? '+' }}{{ evolution }}%
+				</span>
+			{% endif %}
+		</p>
+		{% if valeur is null %}
+			<p class="bz-indicateur__comparaison">Bientôt disponible</p>
+		{% elseif comparaison %}
+			<p class="bz-indicateur__comparaison">{{ comparaison }}</p>
+		{% endif %}
+	</article>
+{% endmacro %}
+
+{# Axe vertical et lignes de repère communs aux graphiques #}
+{% macro axe(graduations) %}
+	<ul class="bz-graphique__axe" aria-hidden="true">
+		{% for graduation in graduations %}
+			<li>{{ graduation }}</li>
+		{% endfor %}
+	</ul>
+{% endmacro %}
+
+{# Histogramme « Vos réservations par mois » #}
+{% macro reservations_par_mois(serie, classe = '') %}
+	<section class="bz-panneau bz-graphique bz-graphique--barres {{ classe }}">
+		<div class="bz-panneau__entete">
+			<div>
+				<h2 class="bz-panneau__titre">Vos réservations par mois</h2>
+				<p class="bz-panneau__sous-titre">Évolution sur les 6 derniers mois</p>
+			</div>
+		</div>
+
+		<div class="bz-graphique__zone">
+			{{ _self.axe(serie.graduations) }}
+			<div class="bz-graphique__trace" style="--bz-graphique-points: {{ serie.points|length }}">
+				<ol class="bz-graphique__points">
+					{% for point in serie.points %}
+						<li style="--bz-point-hauteur: {{ point.hauteur }}%">
+							<span class="bz-graphique__barre" title="{{ point.valeur }} réservation{{ point.valeur > 1 ? 's' }}"></span>
+							<span class="bz-graphique__libelle">{{ point.libelle }}</span>
+							<span class="bz-visuellement-cache">: {{ point.valeur }} réservation{{ point.valeur > 1 ? 's' }}</span>
+						</li>
+					{% endfor %}
+				</ol>
+			</div>
+		</div>
+	</section>
+{% endmacro %}
+
+{# Encart rose « Besoin d'aide ? » ; la variante « large » met le bouton à droite. #}
+{% macro aide(variante = '') %}
+	<section class="bz-panneau bz-aide{{ variante ? ' bz-aide--' ~ variante }}">
+		<img src="{{ asset('images/espace-partenaire/ampoule.png') }}" alt="" class="bz-aide__icone">
+		<div class="bz-aide__corps">
+			<h2 class="bz-panneau__titre">Besoin d’aide&nbsp;?</h2>
+			<p class="bz-aide__texte">Notre équipe est là pour vous accompagner dans la gestion de vos activités et de vos réservations</p>
+		</div>
+		<a href="{{ path('app_contact') }}" class="bz-bouton bz-bouton--jaune bz-aide__bouton">Nous contacter</a>
+	</section>
+{% endmacro %}
+
+{# Vignette d'une activité : Strapi ne transmet pas encore d'image, on affiche le logo. #}
+{% macro vignette() %}
+	<span class="bz-prochaine__image" aria-hidden="true">
+		<img src="{{ asset('images/brand/logo-fantome.svg') }}" alt="">
+	</span>
+{% endmacro %}

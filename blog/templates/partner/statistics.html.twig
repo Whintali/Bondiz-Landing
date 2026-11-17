@@ -1,0 +1,89 @@
+{% extends 'partner/_espace.html.twig' %}
+
+{% import 'partner/_macros.html.twig' as espace %}
+
+{% block title %}Mes statistiques - Espace partenaire Bondiz{% endblock %}
+
+{% block contenu %}
+	{% set chiffres = tableau.indicateurs %}
+
+	<div class="bz-espace__titre">
+		<h1>Mes statistiques</h1>
+		<p>Suivez la performance de vos activités et découvrez leur impact.</p>
+	</div>
+
+	<section class="bz-indicateurs" aria-label="Chiffres du mois">
+		{{ espace.indicateur('Nombre d’activités', 'violet', 'calendrier-blanc.png', chiffres.activites.valeur, chiffres.activites.evolution) }}
+		{{ espace.indicateur('Nombre de participants', 'rose', 'personnes.png', chiffres.participants.valeur, chiffres.participants.evolution) }}
+		{{ espace.indicateur('Taux de remplissage', 'jaune', 'etoile.png', chiffres.remplissage.valeur, chiffres.remplissage.evolution, '%') }}
+		{# Les avis des participants ne sont pas encore recueillis. #}
+		{{ espace.indicateur('Satisfaction moyenne', 'violet', 'etoile.png', null, null, '', '') }}
+	</section>
+
+	<div class="bz-statistiques">
+		{{ espace.reservations_par_mois(tableau.reservationsParMois, 'bz-statistiques__graphique') }}
+
+		<div class="bz-statistiques__cote">
+			{# Le nombre de vues des fiches partenaires n'est pas encore enregistré. #}
+			{{ espace.indicateur('Vues de votre profil', 'rose', 'oeil.png', null) }}
+			{{ espace.indicateur('Participants cumulés', 'jaune', 'personnes.png', tableau.totaux.participants, null, '', '') }}
+		</div>
+
+		<section class="bz-panneau bz-populaires">
+			<div class="bz-panneau__entete">
+				<h2 class="bz-panneau__titre bz-populaires__titre">
+					<span class="bz-indicateur__rond bz-rond--violet" aria-hidden="true">
+						<img src="{{ asset('images/espace-partenaire/trophee.png') }}" alt="">
+					</span>
+					Vos activités les plus populaires
+				</h2>
+				<a href="{{ path('app_partner_activities') }}" class="bz-prochaines__tous">Voir tous</a>
+			</div>
+
+			<ul class="bz-populaires__liste">
+				{% for activite in tableau.populaires %}
+					<li class="bz-populaire">
+						{{ espace.vignette() }}
+						<div>
+							<a href="{{ path('app_partner_activity_edit', {id: activite.documentId}) }}" class="bz-prochaine__titre">{{ activite.title }}</a>
+							<p class="bz-prochaine__date">
+								<img src="{{ asset('images/espace-partenaire/calendrier-gris.png') }}" alt="">
+								<time datetime="{{ activite.debut|date('c') }}">{{ activite.dateCourte }}</time>
+							</p>
+						</div>
+						<div class="bz-populaire__inscrits">
+							<p>
+								<img src="{{ asset('images/espace-partenaire/personnes-gris.png') }}" alt="">
+								{{ activite.bookingsCount }} inscrit{{ activite.bookingsCount > 1 ? 's' }}
+							</p>
+							{% if activite.taux is not null %}
+								<span class="bz-jauge" role="img" aria-label="{{ activite.taux }} % des places réservées">
+									<span style="width: {{ activite.taux }}%"></span>
+								</span>
+							{% endif %}
+						</div>
+					</li>
+				{% else %}
+					<li class="bz-prochaines__vide">
+						<p>Vos activités les plus réservées apparaîtront ici.</p>
+					</li>
+				{% endfor %}
+			</ul>
+		</section>
+
+		{% set remplissage = chiffres.remplissage %}
+		<section class="bz-panneau bz-bon-a-savoir">
+			<img src="{{ asset('images/espace-partenaire/ampoule.png') }}" alt="" class="bz-bon-a-savoir__icone">
+			<h2 class="bz-panneau__titre">Bon à savoir&nbsp;!</h2>
+			<p>
+				{% if remplissage.evolution is not null and remplissage.evolution > 0 %}
+					Votre taux de remplissage est en hausse de {{ remplissage.evolution }}&nbsp;% par rapport au mois dernier. Bravo&nbsp;!
+				{% elseif remplissage.valeur is not null %}
+					Ce mois-ci, {{ remplissage.valeur }}&nbsp;% des places de vos activités sont réservées.
+				{% else %}
+					Indiquez un nombre de places maximum sur vos activités pour suivre leur taux de remplissage.
+				{% endif %}
+			</p>
+		</section>
+	</div>
+{% endblock %}
